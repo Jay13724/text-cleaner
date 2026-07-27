@@ -2,275 +2,198 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מנקה טקסט</title>
 <style>
   :root{
-    --ink:#2b2420;
-    --paper:#f6f1e7;
-    --card:#fffdf8;
-    --accent:#a8452f;
-    --accent-soft:#e8c9b8;
-    --line:#e2d6c3;
-    --muted:#8a7b68;
+    --ink:#1c2321;
+    --paper:#f6f4ee;
+    --line:#d8d3c4;
+    --accent:#2f6f5e;
+    --accent-dark:#234f42;
+    --muted:#6b6459;
   }
   *{box-sizing:border-box;}
   body{
     margin:0;
-    font-family:'Segoe UI', 'Heebo', Arial, sans-serif;
     background:var(--paper);
     color:var(--ink);
-    padding:28px 18px 60px;
-    direction:rtl;
+    font-family:"Segoe UI", Arial, sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    padding:40px 20px;
   }
-  .wrap{max-width:720px;margin:0 auto;}
+  .wrap{
+    width:100%;
+    max-width:760px;
+  }
   h1{
-    font-size:1.5rem;
-    margin:0 0 4px;
-    font-weight:800;
-    letter-spacing:-0.01em;
+    font-size:26px;
+    margin:0 0 6px;
+    letter-spacing:-0.3px;
   }
   .sub{
     color:var(--muted);
-    font-size:0.92rem;
-    margin:0 0 24px;
-    line-height:1.5;
+    font-size:14px;
+    margin:0 0 26px;
+    line-height:1.6;
+  }
+  .row{
+    display:flex;
+    gap:16px;
+    align-items:flex-start;
+  }
+  @media (max-width:640px){
+    .row{flex-direction:column;}
+  }
+  .col{
+    flex:1;
+    min-width:0;
+  }
+  label{
+    display:block;
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:6px;
+    font-weight:600;
   }
   textarea{
     width:100%;
-    min-height:130px;
-    padding:14px 16px;
-    border:1.5px solid var(--line);
-    border-radius:10px;
-    background:var(--card);
-    font-family:inherit;
-    font-size:0.95rem;
-    color:var(--ink);
+    height:280px;
     resize:vertical;
-    direction:rtl;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:14px;
+    font-size:14px;
+    line-height:1.7;
+    background:#fff;
+    color:var(--ink);
+    font-family:inherit;
   }
-  textarea:focus{outline:none;border-color:var(--accent);}
-  .btn{
-    margin-top:14px;
+  textarea:focus{
+    outline:2px solid var(--accent);
+    outline-offset:1px;
+  }
+  #output{
+    background:#fbfaf6;
+  }
+  .arrow{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding-top:110px;
+    color:var(--accent);
+    font-size:20px;
+  }
+  @media (max-width:640px){
+    .arrow{padding-top:0; transform:rotate(90deg); padding:4px 0;}
+  }
+  .controls{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-top:18px;
+    flex-wrap:wrap;
+  }
+  button{
+    border:none;
+    border-radius:8px;
+    padding:10px 20px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  .primary{
     background:var(--accent);
     color:#fff;
-    border:none;
-    padding:12px 26px;
-    border-radius:9px;
-    font-size:0.98rem;
-    font-weight:700;
-    cursor:pointer;
-    transition:opacity .15s ease, transform .1s ease;
   }
-  .btn:hover{opacity:0.92;}
-  .btn:active{transform:scale(0.98);}
-  .btn:disabled{opacity:0.5;cursor:default;}
-  .btn-sec{
+  .primary:hover{background:var(--accent-dark);}
+  .secondary{
     background:transparent;
     color:var(--accent);
-    border:1.5px solid var(--accent-soft);
-    padding:11px 20px;
-    border-radius:9px;
-    font-weight:600;
-    cursor:pointer;
-    font-size:0.9rem;
-    margin-inline-start:10px;
+    border:1px solid var(--accent);
   }
-  .status{
-    margin-top:14px;
-    font-size:0.88rem;
+  .secondary:hover{background:#eef4f1;}
+  .toast{
+    font-size:13px;
+    color:var(--accent-dark);
+    opacity:0;
+    transition:opacity .2s;
+  }
+  .toast.show{opacity:1;}
+  .stat{
+    font-size:12px;
     color:var(--muted);
-    min-height:18px;
-  }
-  .error{color:var(--accent);}
-  .list{
-    margin-top:26px;
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-  }
-  .card{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:12px;
-    padding:16px 18px;
-    position:relative;
-  }
-  .persona{
-    display:inline-block;
-    font-size:0.74rem;
-    font-weight:700;
-    color:var(--accent);
-    background:var(--accent-soft);
-    padding:3px 10px;
-    border-radius:20px;
-    margin-bottom:9px;
-  }
-  .comment-text{
-    font-size:0.97rem;
-    line-height:1.65;
-    white-space:pre-wrap;
-  }
-  .copy-btn{
-    margin-top:12px;
-    background:none;
-    border:1px solid var(--line);
-    color:var(--muted);
-    font-size:0.8rem;
-    padding:6px 14px;
-    border-radius:7px;
-    cursor:pointer;
-    font-weight:600;
-  }
-  .copy-btn:hover{border-color:var(--accent);color:var(--accent);}
-  .copy-btn.copied{border-color:var(--accent);color:var(--accent);background:var(--accent-soft);}
-  .top-row{display:flex;align-items:center;flex-wrap:wrap;}
-  .empty{
-    margin-top:40px;
-    text-align:center;
-    color:var(--muted);
-    font-size:0.9rem;
+    margin-top:6px;
   }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>מחולל תגובות מעורבות</h1>
-  <p class="sub">הדביקו כאן את הפוסט (טקסט או קישור) — ותקבלו תגובות בסגנונות שונים לבחירה. העתיקו אחת, ערכו קצת אם צריך, ופרסמו.<br>זמן יצירה צפוי: כ-15 שניות במצב מהיר (8 תגובות), כ-30 שניות במצב מלא (15 תגובות).</p>
+  <h1>מנקה טקסט</h1>
+  <p class="sub">מדביקים טקסט, לוחצים "נקה", וכל שורה ריקה בין השורות נעלמת - התוצאה צמודה לגמרי.</p>
 
-  <textarea id="postInput" placeholder="הדביקו כאן את תוכן הפוסט, או קישור אליו (קישורים לקבוצות סגורות לרוב לא יעבדו - אז עדיף להדביק טקסט)..."></textarea>
-  <div class="top-row" style="gap:14px;margin-top:14px;">
-    <label style="font-size:0.88rem;color:var(--muted);display:flex;align-items:center;gap:6px;">
-      <input type="radio" name="mode" value="8" checked> מהיר (8 תגובות)
-    </label>
-    <label style="font-size:0.88rem;color:var(--muted);display:flex;align-items:center;gap:6px;">
-      <input type="radio" name="mode" value="15"> מלא (15 תגובות)
-    </label>
+  <div class="row">
+    <div class="col">
+      <label for="input">טקסט מקורי</label>
+      <textarea id="input" placeholder="הדביקו כאן..."></textarea>
+      <div class="stat" id="inStat">0 שורות</div>
+    </div>
+    <div class="arrow">→</div>
+    <div class="col">
+      <label for="output">טקסט נקי</label>
+      <textarea id="output" placeholder="התוצאה תופיע כאן..." readonly></textarea>
+      <div class="stat" id="outStat">0 שורות</div>
+    </div>
   </div>
-  <div class="top-row">
-    <button class="btn" id="genBtn" onclick="generate()">צור תגובות</button>
-  </div>
-  <div class="status" id="status"></div>
 
-  <div class="list" id="list"></div>
+  <div class="controls">
+    <button class="primary" onclick="clean()">נקה טקסט</button>
+    <button class="secondary" onclick="copyOut()">העתק תוצאה</button>
+    <button class="secondary" onclick="clearAll()">נקה הכל</button>
+    <span class="toast" id="toast">הועתק ללוח ✓</span>
+  </div>
 </div>
 
 <script>
-let timerHandle = null;
-
-async function generate(){
-  const input = document.getElementById('postInput').value.trim();
-  const status = document.getElementById('status');
-  const list = document.getElementById('list');
-  const btn = document.getElementById('genBtn');
-  const count = document.querySelector('input[name="mode"]:checked').value;
-  const isUrl = /^https?:\/\//i.test(input);
-
-  if(!input){
-    status.textContent = 'צריך להדביק קודם את תוכן הפוסט או קישור אליו.';
-    status.className = 'status error';
-    return;
-  }
-
-  btn.disabled = true;
-  list.innerHTML = '';
-  const startTime = Date.now();
-  status.className = 'status';
-  const updateTimer = () => {
-    const sec = Math.floor((Date.now() - startTime) / 1000);
-    status.textContent = (isUrl ? 'מנסה לשלוף את תוכן הפוסט מהקישור ולכתוב תגובות... ' : 'יוצר תגובות... ') + '(' + sec + ' שניות)';
-  };
-  updateTimer();
-  timerHandle = setInterval(updateTimer, 1000);
-
-  const systemPrompt = `אתה עוזר ליצירת תגובות אותנטיות לפוסטים בפייסבוק בקבוצות שיווק וובינרים בעברית.
-${isUrl ? 'קיבלת קישור לפוסט. נסה לאתר את תוכנו באמצעות חיפוש אינטרנט. אם הפוסט נמצא בקבוצת פייסבוק סגורה ואינך מצליח לאתר את התוכן שלו, החזר אך ורק את האובייקט הבא ותו לא: {"error":"cannot_access"}' : 'קיבלת את טקסט הפוסט ישירות.'}
-אחרת, כתוב ${count} תגובות שונות על הפוסט, כל אחת בפרסונה/סגנון אחר (למשל: הספקן, ההורה, איש המקצוע, המתעניין, מי שמחבר לחיים, הרגשי, החברותי, מי שכבר התנסה בעבר, השואל שאלה מכוונת, ועוד סגנונות מגוונים משלך).
-כל תגובה צריכה:
-- להיות קצרה עד בינונית (1-3 משפטים), בעברית טבעית, לא שיווקית מדי ולא מוגזמת.
-- להרגיש כמו תגובה אמיתית של אדם מהקבוצה, לא כמו קופי שיווקי.
-- להניע דיון, לשאול שאלה, או לשתף מחשבה/התלבטות אמיתית שקשורה לתוכן הפוסט הספציפי.
-- להימנע משפה גנרית ("וואו מדהים!!!") - כל תגובה תהיה ספציפית לתוכן שקיבלת.
-החזר אך ורק מערך JSON תקין, ללא טקסט נוסף, ללא markdown, בפורמט:
-[{"persona":"שם הסגנון","comment":"טקסט התגובה"}, ...]
-בדיוק ${count} איברים. אל תוסיף שום טקסט מחוץ ל-JSON.`;
-
-  try{
-    const requestBody = {
-      model: "claude-sonnet-4-6",
-      max_tokens: count === "15" ? 2600 : 1500,
-      system: systemPrompt,
-      messages: [
-        { role: "user", content: (isUrl ? "הקישור לפוסט:\n\n" : "הפוסט:\n\n") + input }
-      ]
-    };
-    if(isUrl){
-      requestBody.tools = [{ type: "web_search_20250305", name: "web_search" }];
-    }
-
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(requestBody)
-    });
-
-    const data = await response.json();
-    const textBlocks = (data.content || []).filter(b => b.type === "text");
-    if(textBlocks.length === 0){
-      throw new Error("לא התקבלה תשובה תקינה");
-    }
-    let clean = textBlocks[textBlocks.length - 1].text.trim();
-    clean = clean.replace(/^```json/i, '').replace(/^```/, '').replace(/```$/, '').trim();
-    const parsed = JSON.parse(clean);
-
-    if(parsed && parsed.error === "cannot_access"){
-      clearInterval(timerHandle);
-      status.textContent = 'לא הצלחתי לשלוף את תוכן הפוסט מהקישור (כנראה קבוצה סגורה) - הדביקו את הטקסט של הפוסט ישירות במקום הקישור.';
-      status.className = 'status error';
-      btn.disabled = false;
-      return;
-    }
-
-    const comments = parsed;
-    if(!Array.isArray(comments) || comments.length === 0){
-      throw new Error("הפלט לא בפורמט הצפוי");
-    }
-
-    list.innerHTML = '';
-    comments.forEach((c, i) => {
-      const card = document.createElement('div');
-      card.className = 'card';
-      const persona = document.createElement('div');
-      persona.className = 'persona';
-      persona.textContent = c.persona || ('סגנון ' + (i+1));
-      const text = document.createElement('div');
-      text.className = 'comment-text';
-      text.textContent = c.comment || '';
-      const copyBtn = document.createElement('button');
-      copyBtn.className = 'copy-btn';
-      copyBtn.textContent = 'העתק';
-      copyBtn.onclick = () => {
-        navigator.clipboard.writeText(c.comment || '');
-        copyBtn.textContent = 'הועתק ✓';
-        copyBtn.classList.add('copied');
-        setTimeout(()=>{ copyBtn.textContent = 'העתק'; copyBtn.classList.remove('copied'); }, 1500);
-      };
-      card.appendChild(persona);
-      card.appendChild(text);
-      card.appendChild(copyBtn);
-      list.appendChild(card);
-    });
-
-    clearInterval(timerHandle);
-    const totalSec = Math.floor((Date.now() - startTime) / 1000);
-    status.textContent = 'מוכן תוך ' + totalSec + ' שניות! בחרו תגובה, אפשר לערוך קלות לפני פרסום.';
-  }catch(err){
-    console.error(err);
-    clearInterval(timerHandle);
-    status.textContent = 'משהו השתבש ביצירת התגובות. נסו שוב.';
-    status.className = 'status error';
-  }finally{
-    btn.disabled = false;
-  }
+function countLines(t){
+  if(!t) return 0;
+  return t.split("\n").length;
 }
+
+function clean(){
+  const raw = document.getElementById('input').value;
+  const lines = raw.split("\n").map(l => l.trim());
+  const result = lines.filter(line => line.length > 0);
+
+  const out = result.join("\n");
+  document.getElementById('output').value = out;
+  document.getElementById('inStat').textContent = countLines(raw) + " שורות";
+  document.getElementById('outStat').textContent = countLines(out) + " שורות";
+}
+
+function copyOut(){
+  const out = document.getElementById('output');
+  if(!out.value) return;
+  navigator.clipboard.writeText(out.value).then(()=>{
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'), 1500);
+  });
+}
+
+function clearAll(){
+  document.getElementById('input').value = "";
+  document.getElementById('output').value = "";
+  document.getElementById('inStat').textContent = "0 שורות";
+  document.getElementById('outStat').textContent = "0 שורות";
+}
+
+document.getElementById('input').addEventListener('input', ()=>{
+  document.getElementById('inStat').textContent = countLines(document.getElementById('input').value) + " שורות";
+});
 </script>
 </body>
 </html>
