@@ -41,10 +41,10 @@ def main():
               "setsar=1,fps=30,format=yuv420p")
         subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", str(start), "-to", str(end),
                         "-i", os.path.join(HERE, "clips", name),
-                        "-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo",
+                        "-f", "lavfi", "-t", str(end - start), "-i", "anullsrc=r=48000:cl=stereo",
                         "-filter_complex", f"[0:v]{vf}[v];[0:a][1:a]amix=inputs=2:duration=first[a]"
                         if has_audio(os.path.join(HERE, "clips", name)) else f"[0:v]{vf}[v];[1:a]anull[a]",
-                        "-map", "[v]", "-map", "[a]", "-shortest",
+                        "-map", "[v]", "-map", "[a]", "-t", str(end - start),
                         "-c:v", "libx264", "-preset", "fast", "-crf", "20",
                         "-c:a", "aac", "-ar", "48000", "-ac", "2", part], check=True)
         dur = end - start
