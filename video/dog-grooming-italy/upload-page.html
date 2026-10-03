@@ -19,7 +19,7 @@ h1{font-family:var(--font-display);font-size:1.6rem;line-height:1.2;margin:0;tex
 p{margin:0}
 .lead{color:var(--muted)}
 .pick{display:flex;flex-direction:column;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
-.btn{appearance:none;border:0;border-radius:12px;background:var(--accent);color:var(--accent-fg);font:600 1.15rem var(--font-display);padding:16px;cursor:pointer;width:100%}
+.btn{box-sizing:border-box;appearance:none;border:0;border-radius:12px;background:var(--accent);color:var(--accent-fg);font:600 1.15rem var(--font-display);padding:16px;cursor:pointer;width:100%}
 .btn:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
 .btn{display:block;text-align:center}
 .vh{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
@@ -37,6 +37,13 @@ li{background:var(--surface);border:1px solid var(--line);border-radius:12px;pad
 .bar>i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
 .meta{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
 .empty{color:var(--muted);font-size:.95rem;text-align:center;padding:12px}
+.inapp{display:flex;flex-direction:column;gap:10px;background:var(--surface);border:2px solid var(--warn);border-radius:14px;padding:16px}
+.inapp[hidden]{display:none}
+.inapp a.btn{text-decoration:none}
+.small{font-size:.9rem;color:var(--muted)}
+.copyrow{display:flex;gap:8px}
+.copyrow input{flex:1;min-width:0;font:inherit;font-size:.85rem;direction:ltr;padding:8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
+.copyrow button{font:inherit;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--fg);cursor:pointer}
 @media (prefers-reduced-motion: reduce){.bar>i{transition:none}}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600&family=Rubik:wght@600&display=swap">
@@ -44,6 +51,14 @@ li{background:var(--surface);border:1px solid var(--line);border-radius:12px;pad
 <div class="wrap" dir="rtl" lang="he">
   <h1>שליחת הסרטונים מהגלריה לעריכה</h1>
   <p class="lead">לוחצים על הכפתור, בוחרים מהגלריה את הסרטונים שצילמת היום, ומשאירים את הדף פתוח עד שכולם מסומנים "הועלה". קבצים גדולים עולים בחלקים, ואם משהו נקטע אפשר לבחור את אותו קובץ שוב וההעלאה תמשיך מאיפה שעצרה.</p>
+
+  <div id="inApp" class="inapp" hidden>
+    <strong>פתחת את הדף בתוך האפליקציה של Claude, ושם הגלריה לא נפתחת.</strong>
+    <p>לחץ על הכפתור כדי לפתוח את אותו דף בכרום, ושם הגלריה עובדת.</p>
+    <a id="openChrome" class="btn" href="intent://claude.ai/artifact/CQ5pnqfkHxaCQohVh5WdgN#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=https%3A%2F%2Fclaude.ai%2Fartifact%2FCQ5pnqfkHxaCQohVh5WdgN;end">פתח בכרום</a>
+    <p class="small">לא נפתח? העתק את הכתובת, פתח את כרום והדבק אותה בשורת הכתובת:</p>
+    <div class="copyrow"><input id="urlBox" readonly value="https://claude.ai/artifact/CQ5pnqfkHxaCQohVh5WdgN" aria-label="כתובת הדף"><button id="copyBtn" type="button">העתק</button></div>
+  </div>
 
   <div class="pick">
     <label id="pickBtn" class="btn" for="file" tabindex="0">בחירת סרטונים מהגלריה</label>
@@ -190,6 +205,15 @@ li{background:var(--surface);border:1px solid var(--line);border-radius:12px;pad
     queue = queue.then(() => updateUsage("סיימתי את מה שנבחר"));
   });
   noteEl.addEventListener("blur", saveNote);
+  const inClaudeApp = /; wv\)/.test(navigator.userAgent) && /Claude\//.test(navigator.userAgent);
+  if (inClaudeApp) $("inApp").hidden = false;
+  $("copyBtn").addEventListener("click", async () => {
+    const box = $("urlBox");
+    try { await navigator.clipboard.writeText(box.value); $("copyBtn").textContent = "הועתק"; }
+    catch (_) { box.focus(); box.select(); $("copyBtn").textContent = "סמן והעתק"; }
+  });
+  $("openChrome").addEventListener("click", () => logDiag("tap open-in-chrome"));
+  pickBtn.addEventListener("click", () => logDiag("tap pick (inApp=" + inClaudeApp + ")"));
   pickBtn.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileIn.click(); } });
 
   (async () => {
