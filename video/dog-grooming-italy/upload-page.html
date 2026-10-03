@@ -1,0 +1,196 @@
+<title>העלאת סרטונים לעריכה</title>
+<style>
+/* Layout: one narrow RTL column, a big pick button, then a live list of files with progress bars */
+:root{
+  --bg:#f3f5f2; --surface:#ffffff; --fg:#1d2420; --muted:#5f6b64; --line:#d6ddd8;
+  --accent:#1f6b52; --accent-fg:#ffffff; --ok:#1f7a3f; --warn:#a15c00; --bad:#b3261e;
+  --font-body:"Assistant","Arial Hebrew",Arial,sans-serif;
+  --font-display:"Rubik","Arial Hebrew",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121614; --surface:#1b211e; --fg:#e7ece9; --muted:#9aa7a0; --line:#2e3833;
+  --accent:#5cc49c; --accent-fg:#0d1a14; --ok:#6fd38f; --warn:#f0b35a; --bad:#f2867d; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121614; --surface:#1b211e; --fg:#e7ece9; --muted:#9aa7a0; --line:#2e3833;
+  --accent:#5cc49c; --accent-fg:#0d1a14; --ok:#6fd38f; --warn:#f0b35a; --bad:#f2867d; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.5;padding-inline:16px;padding-block:24px 48px}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+h1{font-family:var(--font-display);font-size:1.6rem;line-height:1.2;margin:0;text-wrap:balance}
+p{margin:0}
+.lead{color:var(--muted)}
+.pick{display:flex;flex-direction:column;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+.btn{appearance:none;border:0;border-radius:12px;background:var(--accent);color:var(--accent-fg);font:600 1.15rem var(--font-display);padding:16px;cursor:pointer;width:100%}
+.btn:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
+.btn[disabled]{opacity:.5;cursor:default}
+label.note{display:flex;flex-direction:column;gap:6px;font-size:.95rem;color:var(--muted)}
+textarea{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;min-height:64px;resize:vertical}
+.status{font-size:.95rem;color:var(--muted)}
+.status.bad{color:var(--bad)}
+ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+li{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.row{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.name{font-weight:600;overflow-wrap:anywhere;min-width:0}
+.pill{font-size:.8rem;border-radius:999px;padding:2px 10px;white-space:nowrap;border:1px solid currentColor}
+.pill.ok{color:var(--ok)} .pill.run{color:var(--accent)} .pill.wait{color:var(--muted)} .pill.bad{color:var(--bad)}
+.bar{height:8px;border-radius:999px;background:var(--line);overflow:hidden}
+.bar>i{display:block;height:100%;background:var(--accent);width:0;transition:width .3s}
+.meta{font-size:.85rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.empty{color:var(--muted);font-size:.95rem;text-align:center;padding:12px}
+@media (prefers-reduced-motion: reduce){.bar>i{transition:none}}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600&family=Rubik:wght@600&display=swap">
+
+<div class="wrap" dir="rtl" lang="he">
+  <h1>שליחת הסרטונים מהגלריה לעריכה</h1>
+  <p class="lead">לוחצים על הכפתור, בוחרים מהגלריה את הסרטונים שצילמת היום, ומשאירים את הדף פתוח עד שכולם מסומנים "הועלה". קבצים גדולים עולים בחלקים, ואם משהו נקטע אפשר לבחור את אותו קובץ שוב וההעלאה תמשיך מאיפה שעצרה.</p>
+
+  <div class="pick">
+    <input id="file" type="file" accept="video/*,image/*" multiple hidden>
+    <button id="pickBtn" class="btn" type="button" disabled>בחירת סרטונים מהגלריה</button>
+    <label class="note" for="note">הערה לעורך (לא חובה): מה יש בסרטונים, מה העובדת אמרה, מה חשוב לך
+      <textarea id="note" placeholder="למשל: בסרטון של הפודל רואים את התספורת; הטיפ הכי טוב שלה היה על..."></textarea>
+    </label>
+    <p id="status" class="status">מתחבר…</p>
+  </div>
+
+  <ul id="list"><li class="empty">עדיין לא הועלו קבצים. הקבצים שתבחר יופיעו כאן עם פס התקדמות.</li></ul>
+</div>
+
+<script>
+(() => {
+  const CHUNK = 14 * 1024 * 1024; // raw slice; base64 fallback stays under the 20 MiB asset cap
+  const $ = (id) => document.getElementById(id);
+  const statusEl = $("status"), listEl = $("list"), pickBtn = $("pickBtn"), fileIn = $("file"), noteEl = $("note");
+  let assets = null, db = null, uploads = null;
+  const rows = new Map(); // key -> {li, file?}
+  let queue = Promise.resolve(); let activeKey = null;
+
+  const fmt = (b) => b >= 1073741824 ? (b/1073741824).toFixed(2)+" GB" : (b/1048576).toFixed(1)+" MB";
+  const setStatus = (t, bad) => { statusEl.textContent = t; statusEl.className = "status" + (bad ? " bad" : ""); };
+  const keyFor = (f) => (f.name + "_" + f.size + "_" + f.lastModified).replace(/[^A-Za-z0-9._-]/g, "_").slice(0, 180);
+  const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+  function render(key, d) {
+    let r = rows.get(key);
+    if (!r) {
+      const empty = listEl.querySelector(".empty"); if (empty) empty.remove();
+      const li = document.createElement("li");
+      li.innerHTML = '<div class="row"><span class="name"></span><span class="pill"></span></div><div class="bar"><i></i></div><div class="meta"></div>';
+      listEl.prepend(li); r = { li }; rows.set(key, r);
+    }
+    const total = d.totalChunks || 1, done = (d.chunks || []).filter(Boolean).length;
+    const pct = d.done ? 100 : Math.round(done / total * 100);
+    r.li.querySelector(".name").textContent = d.name || key;
+    const pill = r.li.querySelector(".pill");
+    const state = d.error ? ["bad","שגיאה"] : d.done ? ["ok","הועלה"] : d.active ? ["run","מעלה…"] : ["wait","ממתין"];
+    pill.className = "pill " + state[0]; pill.textContent = state[1];
+    r.li.querySelector(".bar>i").style.width = pct + "%";
+    r.li.querySelector(".meta").textContent = fmt(d.size || 0) + " · " + pct + "%" + (d.error ? " · " + d.error : "");
+  }
+
+  async function uploadOnce(blob, type) {
+    for (let attempt = 0; attempt < 4; attempt++) {
+      try { return await assets.upload(blob, { type }); }
+      catch (e) {
+        const c = e && e.code;
+        if (c === "store_unavailable" && attempt === 0) { await sleep(2000); continue; }
+        if (c === "rate_limited") { await sleep(5000 * (attempt + 1)); continue; }
+        throw e;
+      }
+    }
+    throw { code: "rate_limited", message: "השרת עמוס, נסה שוב בעוד דקה" };
+  }
+
+  function toBase64Blob(blob) {
+    return new Promise((res, rej) => {
+      const fr = new FileReader();
+      fr.onload = () => res(new Blob([String(fr.result).split(",")[1]], { type: "text/plain" }));
+      fr.onerror = () => rej(fr.error);
+      fr.readAsDataURL(blob);
+    });
+  }
+
+  async function uploadFile(file) {
+    const key = keyFor(file);
+    const ref = uploads.doc(key);
+    const totalChunks = Math.max(1, Math.ceil(file.size / CHUNK));
+    const snap = await ref.get();
+    let d = snap.exists ? snap.data() : null;
+    if (!d || d.totalChunks !== totalChunks) {
+      d = { name: file.name, size: file.size, type: file.type || "video/mp4", lastModified: file.lastModified,
+            totalChunks, chunkBytes: CHUNK, chunks: new Array(totalChunks).fill(null), done: false,
+            createdAt: new Date().toISOString() };
+      await ref.set(d);
+    }
+    if (d.done) { render(key, d); return; }
+    const mediaType = (file.type === "video/webm") ? "video/webm" : (file.type || "").startsWith("image/") && totalChunks === 1 && ["image/jpeg","image/png","image/webp","image/gif"].includes(file.type) ? file.type : "video/mp4";
+    d.active = true; activeKey = key; delete d.error; render(key, d);
+    for (let i = 0; i < totalChunks; i++) {
+      if (d.chunks[i]) continue;
+      const slice = file.slice(i * CHUNK, Math.min(file.size, (i + 1) * CHUNK));
+      let res, enc = "raw";
+      try { res = await uploadOnce(slice, mediaType); }
+      catch (e) {
+        if (e && (e.code === "unsupported_type" || e.code === "invalid_request")) {
+          res = await uploadOnce(await toBase64Blob(slice), "text/plain"); enc = "base64";
+        } else throw e;
+      }
+      d.chunks[i] = { id: res.id, enc, bytes: slice.size };
+      await ref.update({ chunks: d.chunks });
+      render(key, d);
+    }
+    d.done = true; d.active = false; activeKey = null;
+    await ref.update({ done: true, finishedAt: new Date().toISOString() });
+    render(key, d);
+  }
+
+  async function saveNote() {
+    const t = noteEl.value.trim();
+    if (!db || !t) return;
+    try { await db.doc("notes/main").set({ text: t, updatedAt: new Date().toISOString() }); } catch (_) {}
+  }
+
+  async function updateUsage(prefix) {
+    try {
+      const { usage } = await assets.list();
+      setStatus((prefix ? prefix + " · " : "") + "נשמר עד כה " + fmt(usage.bytes) + " מתוך " + fmt(usage.maxBytes) + " (" + usage.files + "/" + usage.maxFiles + " חלקים)");
+    } catch (_) { if (prefix) setStatus(prefix); }
+  }
+
+  fileIn.addEventListener("change", () => {
+    const files = Array.from(fileIn.files || []); fileIn.value = "";
+    if (!files.length) return;
+    saveNote();
+    files.forEach(f => render(keyFor(f), { name: f.name, size: f.size, totalChunks: Math.ceil(f.size / CHUNK) || 1, chunks: [] }));
+    for (const f of files) {
+      queue = queue.then(async () => {
+        setStatus("מעלה את " + f.name + " — להשאיר את הדף פתוח");
+        try { await uploadFile(f); }
+        catch (e) {
+          const msg = e && e.code === "too_large" ? "הקובץ גדול מדי" :
+                      e && e.code === "quota_or_state" ? "נגמר המקום באחסון — שלח את השאר בסבב נוסף" :
+                      e && e.code === "rate_limited" ? "השרת עמוס, בחר את הקובץ שוב בעוד דקה" :
+                      (e && e.message) || "ההעלאה נכשלה, בחר את הקובץ שוב כדי להמשיך";
+          activeKey = null;
+          render(keyFor(f), { name: f.name, size: f.size, totalChunks: 1, chunks: [], error: msg });
+        }
+      });
+    }
+    queue = queue.then(() => updateUsage("סיימתי את מה שנבחר"));
+  });
+  noteEl.addEventListener("blur", saveNote);
+  pickBtn.addEventListener("click", () => fileIn.click());
+
+  (async () => {
+    if (!window.claude || !window.claude.use) { setStatus("פתח את הדף מתוך Claude כדי להעלות קבצים.", true); return; }
+    [assets, db] = await Promise.all([window.claude.use("assets"), window.claude.use("db")]);
+    if (!assets || !db) { setStatus("ההעלאה זמינה רק לבעל הדף כשהוא מחובר ל-Claude.", true); return; }
+    uploads = db.collection("uploads");
+    pickBtn.disabled = false;
+    setStatus("מוכן. בחר סרטונים מהגלריה.");
+    uploads.onSnapshot(s => s.docs.forEach(doc => { const d = doc.data(); if (d) render(doc.id, Object.assign({}, d, { active: doc.id === activeKey && !d.done })); }), () => {});
+    try { const n = await db.doc("notes/main").get(); if (n.exists && !noteEl.value) noteEl.value = n.data().text || ""; } catch (_) {}
+    updateUsage();
+  })();
+})();
+</script>
