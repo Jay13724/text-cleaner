@@ -21,7 +21,8 @@ p{margin:0}
 .pick{display:flex;flex-direction:column;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
 .btn{appearance:none;border:0;border-radius:12px;background:var(--accent);color:var(--accent-fg);font:600 1.15rem var(--font-display);padding:16px;cursor:pointer;width:100%}
 .btn:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
-.btn[disabled]{opacity:.5;cursor:default}
+.btn{display:block;text-align:center}
+.vh{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
 label.note{display:flex;flex-direction:column;gap:6px;font-size:.95rem;color:var(--muted)}
 textarea{font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;min-height:64px;resize:vertical}
 .status{font-size:.95rem;color:var(--muted)}
@@ -45,8 +46,8 @@ li{background:var(--surface);border:1px solid var(--line);border-radius:12px;pad
   <p class="lead">לוחצים על הכפתור, בוחרים מהגלריה את הסרטונים שצילמת היום, ומשאירים את הדף פתוח עד שכולם מסומנים "הועלה". קבצים גדולים עולים בחלקים, ואם משהו נקטע אפשר לבחור את אותו קובץ שוב וההעלאה תמשיך מאיפה שעצרה.</p>
 
   <div class="pick">
-    <input id="file" type="file" accept="video/*,image/*" multiple hidden>
-    <button id="pickBtn" class="btn" type="button" disabled>בחירת סרטונים מהגלריה</button>
+    <label id="pickBtn" class="btn" for="file" tabindex="0">בחירת סרטונים מהגלריה</label>
+    <input id="file" type="file" accept="video/*,image/*" multiple class="vh">
     <label class="note" for="note">הערה לעורך (לא חובה): מה יש בסרטונים, מה העובדת אמרה, מה חשוב לך
       <textarea id="note" placeholder="למשל: בסרטון של הפודל רואים את התספורת; הטיפ הכי טוב שלה היה על..."></textarea>
     </label>
@@ -144,6 +145,13 @@ li{background:var(--surface);border:1px solid var(--line);border-radius:12px;pad
     render(key, d);
   }
 
+  const diag = { ua: navigator.userAgent, at: new Date().toISOString(), steps: [] };
+  async function logDiag(step) {
+    diag.steps.push(new Date().toISOString().slice(11,19) + " " + step);
+    if (db) { try { await db.doc("diag/" + diagId).set(diag); } catch (_) {} }
+  }
+  const diagId = "v" + Date.now().toString(36);
+
   async function saveNote() {
     const t = noteEl.value.trim();
     if (!db || !t) return;
@@ -161,32 +169,36 @@ li{background:var(--surface);border:1px solid var(--line);border-radius:12px;pad
     const files = Array.from(fileIn.files || []); fileIn.value = "";
     if (!files.length) return;
     saveNote();
+    logDiag("picked " + files.length + " file(s): " + files.map(f => f.name + " " + fmt(f.size) + " " + (f.type || "?")).join(", "));
+    if (!assets || !db) { setStatus("הקבצים נבחרו, אבל הדף לא מחובר לאחסון של Claude. פתח את הקישור בדפדפן בכתובת claude.ai כשאתה מחובר לחשבון, ונסה שוב.", true); return; }
     files.forEach(f => render(keyFor(f), { name: f.name, size: f.size, totalChunks: Math.ceil(f.size / CHUNK) || 1, chunks: [] }));
     for (const f of files) {
       queue = queue.then(async () => {
         setStatus("מעלה את " + f.name + " — להשאיר את הדף פתוח");
-        try { await uploadFile(f); }
+        try { await logDiag("start " + f.name); await uploadFile(f); await logDiag("done " + f.name); }
         catch (e) {
           const msg = e && e.code === "too_large" ? "הקובץ גדול מדי" :
                       e && e.code === "quota_or_state" ? "נגמר המקום באחסון — שלח את השאר בסבב נוסף" :
                       e && e.code === "rate_limited" ? "השרת עמוס, בחר את הקובץ שוב בעוד דקה" :
                       (e && e.message) || "ההעלאה נכשלה, בחר את הקובץ שוב כדי להמשיך";
           activeKey = null;
-          render(keyFor(f), { name: f.name, size: f.size, totalChunks: 1, chunks: [], error: msg });
+          logDiag("error " + f.name + ": " + ((e && e.code) || "") + " " + ((e && e.message) || String(e)));
+          render(keyFor(f), { name: f.name, size: f.size, totalChunks: 1, chunks: [], error: msg + (e && e.code ? " [" + e.code + "]" : "") });
         }
       });
     }
     queue = queue.then(() => updateUsage("סיימתי את מה שנבחר"));
   });
   noteEl.addEventListener("blur", saveNote);
-  pickBtn.addEventListener("click", () => fileIn.click());
+  pickBtn.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); fileIn.click(); } });
 
   (async () => {
-    if (!window.claude || !window.claude.use) { setStatus("פתח את הדף מתוך Claude כדי להעלות קבצים.", true); return; }
+    if (!window.claude || !window.claude.use) { setStatus("הדף נפתח מחוץ ל-Claude. פתח את הקישור בדפדפן בכתובת claude.ai כשאתה מחובר לחשבון.", true); return; }
+    setStatus("מתחבר לאחסון… (עד 10 שניות)");
     [assets, db] = await Promise.all([window.claude.use("assets"), window.claude.use("db")]);
-    if (!assets || !db) { setStatus("ההעלאה זמינה רק לבעל הדף כשהוא מחובר ל-Claude.", true); return; }
+    await logDiag("loaded; assets=" + !!assets + " db=" + !!db);
+    if (!assets || !db) { setStatus("הדף לא קיבל גישה לאחסון (assets=" + !!assets + ", db=" + !!db + "). אם פתחת באפליקציה, נסה בדפדפן בכתובת claude.ai כשאתה מחובר, ולהפך.", true); return; }
     uploads = db.collection("uploads");
-    pickBtn.disabled = false;
     setStatus("מוכן. בחר סרטונים מהגלריה.");
     uploads.onSnapshot(s => s.docs.forEach(doc => { const d = doc.data(); if (d) render(doc.id, Object.assign({}, d, { active: doc.id === activeKey && !d.done })); }), () => {});
     try { const n = await db.doc("notes/main").get(); if (n.exists && !noteEl.value) noteEl.value = n.data().text || ""; } catch (_) {}
