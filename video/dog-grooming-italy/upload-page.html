@@ -66,7 +66,8 @@ li{background:var(--surface);border:1px solid var(--line);border-radius:12px;pad
     <label class="note" for="note">הערה לעורך (לא חובה): מה יש בסרטונים, מה העובדת אמרה, מה חשוב לך
       <textarea id="note" placeholder="למשל: בסרטון של הפודל רואים את התספורת; הטיפ הכי טוב שלה היה על..."></textarea>
     </label>
-    <p id="status" class="status">מתחבר…</p>
+    <p id="status" class="status" aria-live="polite">מתחבר…</p>
+    <button id="resumeBtn" class="btn" type="button" hidden>המשך העלאה</button>
   </div>
 
   <ul id="list"><li class="empty">עדיין לא הועלו קבצים. הקבצים שתבחר יופיעו כאן עם פס התקדמות.</li></ul>
@@ -95,26 +96,32 @@ li{background:var(--surface);border:1px solid var(--line);border-radius:12px;pad
       listEl.prepend(li); r = { li }; rows.set(key, r);
     }
     const total = d.totalChunks || 1, done = (d.chunks || []).filter(Boolean).length;
-    const pct = d.done ? 100 : Math.round(done / total * 100);
+    const pct = (d.done || d.received) ? 100 : Math.round(done / total * 100);
     r.li.querySelector(".name").textContent = d.name || key;
     const pill = r.li.querySelector(".pill");
-    const state = d.error ? ["bad","שגיאה"] : d.done ? ["ok","הועלה"] : d.active ? ["run","מעלה…"] : ["wait","ממתין"];
+    const state = d.received ? ["ok","התקבל אצל Claude"] : d.error ? ["bad","שגיאה"] : d.done ? ["ok","הועלה"] : d.active ? ["run","מעלה…"] : ["wait","ממתין"];
     pill.className = "pill " + state[0]; pill.textContent = state[1];
     r.li.querySelector(".bar>i").style.width = pct + "%";
     r.li.querySelector(".meta").textContent = fmt(d.size || 0) + " · " + pct + "%" + (d.error ? " · " + d.error : "");
   }
 
-  async function uploadOnce(blob, type) {
-    for (let attempt = 0; attempt < 4; attempt++) {
+  // Transient refusals (busy store, rate limit, lost reply) are waited out with growing pauses
+  // instead of skipping ahead; only a permanent error or a full store stops the file.
+  const WAITS = [3, 5, 10, 20, 30, 45, 60, 60, 60, 90, 120, 120];
+  const TRANSIENT = new Set(["store_unavailable", "rate_limited", "upstream_error", "transform_error", "upstream_auth"]);
+  async function uploadOnce(blob, type, label) {
+    for (let attempt = 0; ; attempt++) {
       try { return await assets.upload(blob, { type }); }
       catch (e) {
         const c = e && e.code;
-        if (c === "store_unavailable" && attempt === 0) { await sleep(2000); continue; }
-        if (c === "rate_limited") { await sleep(5000 * (attempt + 1)); continue; }
-        throw e;
+        if (!TRANSIENT.has(c) || attempt >= WAITS.length) throw e;
+        if (attempt === 0) logDiag("retrying " + label + " after " + c);
+        for (let left = WAITS[attempt]; left > 0; left--) {
+          setStatus("השרת עמוס רגע. מנסה שוב בעוד " + left + " שניות… (" + label + ")");
+          await sleep(1000);
+        }
       }
     }
-    throw { code: "rate_limited", message: "השרת עמוס, נסה שוב בעוד דקה" };
   }
 
   function toBase64Blob(blob) {
@@ -138,22 +145,23 @@ li{background:var(--surface);border:1px solid var(--line);border-radius:12px;pad
             createdAt: new Date().toISOString() };
       await ref.set(d);
     }
-    if (d.done) { render(key, d); return; }
+    if (d.done || d.received) { render(key, d); return; }
     const mediaType = (file.type === "video/webm") ? "video/webm" : (file.type || "").startsWith("image/") && totalChunks === 1 && ["image/jpeg","image/png","image/webp","image/gif"].includes(file.type) ? file.type : "video/mp4";
     d.active = true; activeKey = key; delete d.error; render(key, d);
     for (let i = 0; i < totalChunks; i++) {
       if (d.chunks[i]) continue;
       const slice = file.slice(i * CHUNK, Math.min(file.size, (i + 1) * CHUNK));
       let res, enc = "raw";
-      try { res = await uploadOnce(slice, mediaType); }
+      try { res = await uploadOnce(slice, mediaType, file.name + " " + (i + 1) + "/" + totalChunks); }
       catch (e) {
         if (e && (e.code === "unsupported_type" || e.code === "invalid_request")) {
-          res = await uploadOnce(await toBase64Blob(slice), "text/plain"); enc = "base64";
+          res = await uploadOnce(await toBase64Blob(slice), "text/plain", file.name); enc = "base64";
         } else throw e;
       }
       d.chunks[i] = { id: res.id, enc, bytes: slice.size };
       await ref.update({ chunks: d.chunks });
       render(key, d);
+      await sleep(400);
     }
     d.done = true; d.active = false; activeKey = null;
     await ref.update({ done: true, finishedAt: new Date().toISOString() });
@@ -180,30 +188,55 @@ li{background:var(--surface);border:1px solid var(--line);border-radius:12px;pad
     } catch (_) { if (prefix) setStatus(prefix); }
   }
 
+  const pending = new Map(); // key -> File, kept while the page is open so uploads can resume
+  let running = false, stopped = false;
+  async function runQueue() {
+    if (running) return; running = true; stopped = false; $("resumeBtn").hidden = true;
+    keepAwake();
+    for (const [key, f] of pending) {
+      if (stopped) break;
+      setStatus("מעלה את " + f.name + ". להשאיר את הדף פתוח והמסך דולק.");
+      try { await logDiag("start " + f.name); await uploadFile(f); pending.delete(key); await logDiag("done " + f.name); }
+      catch (e) {
+        activeKey = null;
+        const c = e && e.code;
+        logDiag("error " + f.name + ": " + (c || "") + " " + ((e && e.message) || String(e)));
+        const snap = await uploads.doc(key).get().catch(() => null);
+        const d = (snap && snap.exists && snap.data()) || { name: f.name, size: f.size, totalChunks: 1, chunks: [] };
+        if (c === "quota_or_state") {
+          stopped = true;
+          render(key, Object.assign({}, d, { error: "האחסון התמלא" }));
+          setStatus("האחסון התמלא. כתוב ל-Claude בשיחה \"תפנה מקום\", ואחרי שיענה לחץ \"המשך העלאה\". אל תסגור את הדף.", true);
+          break;
+        }
+        render(key, Object.assign({}, d, { error: (c === "too_large" ? "הקובץ גדול מדי" : "לא עלה") + (c ? " [" + c + "]" : "") }));
+      }
+    }
+    running = false; releaseAwake();
+    if (pending.size) { $("resumeBtn").hidden = false; if (!stopped) setStatus(pending.size + " קבצים לא עלו. לחץ \"המשך העלאה\" כדי לנסות שוב.", true); }
+    else updateUsage("כל הקבצים עלו. אפשר לכתוב ל-Claude \"העליתי\"");
+  }
+
+  let wakeLock = null;
+  async function keepAwake() { try { wakeLock = await navigator.wakeLock.request("screen"); } catch (_) {} }
+  function releaseAwake() { try { wakeLock && wakeLock.release(); } catch (_) {} wakeLock = null; }
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && running) keepAwake(); });
+
   fileIn.addEventListener("change", () => {
     const files = Array.from(fileIn.files || []); fileIn.value = "";
     if (!files.length) return;
     saveNote();
-    logDiag("picked " + files.length + " file(s): " + files.map(f => f.name + " " + fmt(f.size) + " " + (f.type || "?")).join(", "));
+    logDiag("picked " + files.length + " file(s), " + fmt(files.reduce((a, f) => a + f.size, 0)));
     if (!assets || !db) { setStatus("הקבצים נבחרו, אבל הדף לא מחובר לאחסון של Claude. פתח את הקישור בדפדפן בכתובת claude.ai כשאתה מחובר לחשבון, ונסה שוב.", true); return; }
-    files.forEach(f => render(keyFor(f), { name: f.name, size: f.size, totalChunks: Math.ceil(f.size / CHUNK) || 1, chunks: [] }));
+    files.sort((a, b) => a.lastModified - b.lastModified);
     for (const f of files) {
-      queue = queue.then(async () => {
-        setStatus("מעלה את " + f.name + " — להשאיר את הדף פתוח");
-        try { await logDiag("start " + f.name); await uploadFile(f); await logDiag("done " + f.name); }
-        catch (e) {
-          const msg = e && e.code === "too_large" ? "הקובץ גדול מדי" :
-                      e && e.code === "quota_or_state" ? "נגמר המקום באחסון — שלח את השאר בסבב נוסף" :
-                      e && e.code === "rate_limited" ? "השרת עמוס, בחר את הקובץ שוב בעוד דקה" :
-                      (e && e.message) || "ההעלאה נכשלה, בחר את הקובץ שוב כדי להמשיך";
-          activeKey = null;
-          logDiag("error " + f.name + ": " + ((e && e.code) || "") + " " + ((e && e.message) || String(e)));
-          render(keyFor(f), { name: f.name, size: f.size, totalChunks: 1, chunks: [], error: msg + (e && e.code ? " [" + e.code + "]" : "") });
-        }
-      });
+      const k = keyFor(f);
+      if (!pending.has(k)) pending.set(k, f);
+      if (!rows.has(k)) render(k, { name: f.name, size: f.size, totalChunks: Math.ceil(f.size / CHUNK) || 1, chunks: [] });
     }
-    queue = queue.then(() => updateUsage("סיימתי את מה שנבחר"));
+    runQueue();
   });
+  $("resumeBtn").addEventListener("click", () => { logDiag("tap resume"); runQueue(); });
   noteEl.addEventListener("blur", saveNote);
   const inClaudeApp = /; wv\)/.test(navigator.userAgent) && /Claude\//.test(navigator.userAgent);
   if (inClaudeApp) $("inApp").hidden = false;
