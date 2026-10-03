@@ -1,0 +1,6 @@
+# file,start_sec,end_sec,caption  (file = name inside clips/ ; caption is optional, Hebrew is fine)
+# Fill this list in order with the clips from today. Examples:
+# dog_after.mp4,3,10,70€ לכלב · חודש המתנה
+# street.mp4,0,8,
+# washing.mp4,12,15,
+# worker_talk.mp4,40,58,טיפ 1: [מה שהיא אמרה]
