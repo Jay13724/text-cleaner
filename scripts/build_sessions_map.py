@@ -16,6 +16,7 @@ CATEGORIES = [
     ("אתר, וורדפרס ודפים", r"וורדפרס|ווירדפרס|wordpress|Elementor|Vimeo|Bunny|דף|אתר|redirect|responsive"),
     ("כלים, אוטומציות ותשתית", r"WhatsApp|ווטסאפ|וואטסאפ|Gmail|Cloudflare|Cal\.com|קלנדלי|token|טוקנים|Remote Control|Claude|VS Code|instance|gcloud|webhook|AudD|אנטי וירוס|Edge|Ymio|access"),
 ]
+LIMIT = 65  # אחוז מאורך השיחה שמעליו פותחים שיחה חדשה
 CLIENT_RE = re.compile(r"^\s*לקוח\s*:\s*([^|·\-–]+)")
 
 def load(paths):
@@ -29,7 +30,11 @@ def load(paths):
                 continue
             seen.add(s["id"])
             ps = s.get("post_turn_summary") or {}
-            rows.append(dict(id=s["id"], created=s["created_at"][:10],
+            cu = (s.get("external_metadata") or {}).get("context_usage") or {}
+            pct = round(100 * cu["used_tokens"] / cu["max_tokens"]) if cu.get("max_tokens") and cu.get("used_tokens") else None
+            rows.append(dict(id=s["id"], created=s["created_at"][:10], pct=pct,
+                             archived=s.get("session_status") == "SESSION_STATUS_ARCHIVED",
+                             pc=s.get("environment_kind") == "bridge",
                              updated=(s.get("updated_at") or "")[:10],
                              title=(s.get("title") or "").strip(),
                              summary=(ps.get("status_detail") or "").replace("\n", " ").strip()))
@@ -57,19 +62,31 @@ def main(out, paths):
              "תמלול ותוכן", "אתר, וורדפרס ודפים", "כלים, אוטומציות ותשתית",
              "שונות (כולל שיחות לקוח שעוד לא קיבלו כותרת בתבנית)", "שיחות מהמחשב בלי כותרת"]
     link = lambda r: f"[{r['title'] or r['id']}](https://claude.ai/code/{r['id']})"
-    line = lambda r: f"| {r['updated'] or r['created']} | {link(r)} | {r['summary'][:120]} |"
+    def fill(r):
+        if r["pct"] is None:
+            return "?"
+        mark = "✅" if r["pct"] < LIMIT else "⛔"
+        return f"{mark} {r['pct']}%" + (" (בארכיון)" if r["archived"] else "")
+    line = lambda r: f"| {r['updated'] or r['created']} | {link(r)} | {fill(r)} | {r['summary'][:110]} |"
+    head = ["| עודכן | שיחה | מלאה | מצב אחרון |", "|---|---|---|---|"]
     L = ["# מפת השיחות", "",
          f"נבנה אוטומטית מ־{len(rows)} שיחות. לחיצה על שם שיחה פותחת אותה בכל מכשיר (claude.ai/code).",
-         "אל תערוך ידנית: כל שיחה מעדכנת את הקובץ בסוף העבודה (ראה CLAUDE.md).", ""]
+         "אל תערוך ידנית: כל שיחה מעדכנת את הקובץ בסוף העבודה (ראה CLAUDE.md).",
+         f"✅ = מתחת ל־{LIMIT}% מהאורך, אפשר להמשיך בה. ⛔ = מלאה, פותחים חדשה.", ""]
+    open_rows = [r for r in rows if r["pct"] is not None and r["pct"] < LIMIT and not r["archived"]
+                 and r["title"] and not r["title"].startswith("yesh-pc-")]
+    if open_rows:
+        L += [f"## ✅ שיחות פתוחות שאפשר להמשיך (מתחת ל־{LIMIT}%)", ""] + head
+        L += [line(r) for r in sorted(open_rows, key=lambda r: r["updated"], reverse=True)] + [""]
     if clients:
         L += ["## לקוחות", ""]
         for c in sorted(clients):
-            L += [f"### {c}", "", "| עודכן | שיחה | מצב אחרון |", "|---|---|---|"]
+            L += [f"### {c}", ""] + head
             L += [line(r) for r in sorted(clients[c], key=lambda r: r["updated"], reverse=True)] + [""]
     for cat in order:
         if not groups.get(cat):
             continue
-        L += [f"## {cat}", "", "| עודכן | שיחה | מצב אחרון |", "|---|---|---|"]
+        L += [f"## {cat}", ""] + head
         L += [line(r) for r in sorted(groups[cat], key=lambda r: r["updated"], reverse=True)] + [""]
     open(out, "w", encoding="utf-8").write("\n".join(L))
     print(f"{out}: {len(rows)} sessions")
