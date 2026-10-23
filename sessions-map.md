@@ -1,6 +1,6 @@
 # מפת השיחות
 
-נבנה אוטומטית מ־244 שיחות. לחיצה על שם שיחה פותחת אותה בכל מכשיר (claude.ai/code).
+נבנה אוטומטית מ־275 שיחות. לחיצה על שם שיחה פותחת אותה בכל מכשיר (claude.ai/code).
 אל תערוך ידנית: כל שיחה מעדכנת את הקובץ בסוף העבודה (ראה CLAUDE.md).
 ✅ = מתחת ל־65% מהאורך, אפשר להמשיך בה. ⛔ = מלאה, פותחים חדשה.
 
@@ -8,16 +8,30 @@
 
 | עודכן | שיחה | מלאה | מצב אחרון |
 |---|---|---|---|
-| 2026-10-19 | [CRM · דוח פולואפים ללידים (וואטסאפ ומייל) 5.10-19.10](https://claude.ai/code/session_01LpX733SZVcQCzp1KCSjZjo) | ✅ 18% |  |
+| 2026-10-22 | [מצב גיבוי הקבצים ביוטיוב](https://claude.ai/code/session_01KzRKJtA12g77bPsZRn6Rys) | ✅ 8% | 36/93 recordings uploaded to YouTube; ~9 days left |
+| 2026-10-22 | [linkedin-agent-skill repository](https://claude.ai/code/session_01F7gcN4ZszzvcZtuVVjxQpF) | ✅ 15% | LinkedIn logged in; group not found, need group and draft choice |
+| 2026-10-22 | [פאנל לעידית לשיפור וובינר](https://claude.ai/code/session_01FQUEVkXCCKtreyGkRTnoBK) | ✅ 21% | found 11.10.26 webinar transcript (.srt) and attendance (.csv) paths |
+| 2026-10-22 | [מעבירי וובינרים מובילים בעולם](https://claude.ai/code/session_01Tpq2N3Y8LmZeJRb6CU9tuU) | ✅ 33% | Brunson draft ready; awaiting your approval to publish |
+| 2026-10-22 | [רעיונות למייל לוובינר](https://claude.ai/code/session_01TjTRK8AXJ7cXfZVtprsPzr) | ✅ 55% | 8 of 10 post images ready; rerunning 2 missing |
+| 2026-10-22 | [מדיטציית loving kindness של רוני](https://claude.ai/code/session_01TAgb8XJSsXiSpZ1THAYFLB) | ✅ 9% | file emailed to yesh11111@gmail.com; WhatsApp skipped (bridge off) |
+| 2026-10-22 | [הפחתת עומסים לשיחת זום](https://claude.ai/code/session_01Y15jRweptosYpaPeVcyPYK) | ✅ 8% | transcription queue paused (140 of 273 left); waiting for resume |
+| 2026-10-22 | [כניסה לפייסבוק](https://claude.ai/code/session_017gs8uC9G9G8k5jUGxWxxwo) | ✅ 12% | Failed to authenticate: OAuth session expired and could not be refreshed |
+| 2026-10-22 | [קידום אורגני ו-GEO לקורסים](https://claude.ai/code/session_01CPfVBXukEVm3j9q5MCzPPJ) | ✅ 35% | chapter pages switched to Article schema; 25/105 verified |
+| 2026-10-22 | [מפת הכנה לפגישות מכירה](https://claude.ai/code/session_01CwCrSjzEkogMy92jyhS9Ni) | ✅ 32% | Ari transcript still running; wait or build from partial? |
+| 2026-10-22 | [פולואפ עומר ופגישה](https://claude.ai/code/session_01TjvQzHT5RtNGQVete8euZ1) | ✅ 50% | added no-webinar script section; created 3 Gmail labels |
+| 2026-10-22 | [CRM - מבנה ופולואפים1](https://claude.ai/code/session_01EuV7hAy2ERWFQNkB18JK1S) | ✅ 29% | Failed to authenticate: OAuth session expired and could not be refreshed |
+| 2026-10-22 | [משוב מכירה2](https://claude.ai/code/session_01Xg6kgg6os174xNbQcSiVvP) | ✅ 12% | Still waiting for your answer on speeding up the transcription: should I turn on all three steps? |
+| 2026-10-22 | [תזכורות לפגישה עם ארי במייל](https://claude.ai/code/session_018pAFHtXG22SKyUHQQCcqLQ) | ✅ 49% | פרק 71 תוקן ונבדק; מקפים בתבנית כל העמודים נשארו |
+| 2026-10-22 | [אלי אסדו1](https://claude.ai/code/session_01DmM9hF94iYebmKk6Xb1qqz) | ✅ 47% | added Ofir webinar tab to Eli's guide doc; link shared |
+| 2026-10-21 | [תמלולי פודקאסט yeshmarketing.co.il](https://claude.ai/code/session_01X4m9ugTzZiWofctns9JeuJ) | ✅ 7% | להתחיל? |
+| 2026-10-21 | [טמפלייט אתגר](https://claude.ai/code/session_018SeMSHbXxHbigt4sZYdAqM) | ✅ 15% | needs new desktop chat named טמפלייט אתגר1 with handoff |
+| 2026-10-20 | [הטריאל של Claude in Chrome](https://claude.ai/code/session_01Kiyc8VM8bq8ugXbcAakETk) | ✅ 16% | Oracle Cloud signup stuck; you must enter the card |
+| 2026-10-20 | [וובינר פרימיום לפי הדרכת לירון](https://claude.ai/code/session_012QTqDBnhpnADbNC6pPzpV9) | ✅ 51% | You've hit your session limit · resets 10pm (Asia/Beirut) |
+| 2026-10-19 | [הצגה עצמית בתסריט המכירה](https://claude.ai/code/session_016eUpNUfwVMkYu5qvNRgTHp) | ✅ 13% | fixed 2 script answers in Drive doc, verified saved |
+| 2026-10-19 | [CRM · דוח פולואפים ללידים (וואטסאפ ומייל) 5.10-19.10](https://claude.ai/code/session_01LpX733SZVcQCzp1KCSjZjo) | ✅ 25% | שלחתי טבלת פולואפים למייל; רוב הוואטסאפים לא יצאו |
 | 2026-10-18 | [מייל מצב חזרה E5](https://claude.ai/code/session_01JWp1EXU5YQcHKfFkN8rLme) | ✅ 9% |  |
-| 2026-10-18 | [משוב מכירה2](https://claude.ai/code/session_01Xg6kgg6os174xNbQcSiVvP) | ✅ 61% | מסמך ארי הועבר לתיקיית הכנות; הרעיונות מסומנים |
-| 2026-10-18 | [עריכת וידאו2](https://claude.ai/code/session_013YivgnPEyray9Aj9Hsoern) | ✅ 34% | Waiting on permission: PowerShell |
-| 2026-10-18 | [אלי אסדו1](https://claude.ai/code/session_01DmM9hF94iYebmKk6Xb1qqz) | ✅ 31% | לעשות את 1? |
-| 2026-10-18 | [העברת חשבוניות](https://claude.ai/code/session_01PWhMbgsi9QjSsakMgS5grt) | ✅ 53% | Paolo shekel question sent; daily check and reminder set |
-| 2026-10-18 | [תוכנת וובינרים - המשך בנייה](https://claude.ai/code/session_012QTqDBnhpnADbNC6pPzpV9) | ✅ 9% | Waiting on permission: PowerShell |
 | 2026-10-15 | [קול מעוות בשיחה](https://claude.ai/code/session_01WAWA8CbG7WoX6E3hAeVY4a) | ✅ 8% | Voicemeeter stopped; uninstall needs your click in its window |
 | 2026-10-15 | [מייל CPBC לטענות מפתיעות](https://claude.ai/code/session_015nNCuqUwXmcUNhPpwmEhhu) | ✅ 51% | post design live on all 435 posts; shrimp post restructured |
-| 2026-10-14 | [תמונות לפוסטים באתר דרך ChatGPT](https://claude.ai/code/session_01DHHpxpv4DHPsE4KRTFwZRX) | ✅ 9% | Codex login not saved yet; waiting for you to sign in on phone |
 | 2026-10-11 | [קידום אורגני פרק הפודקאסט 4](https://claude.ai/code/session_01BzAa73cZxuRXv3SwmUn8kv) | ✅ 22% | ממתין לסוכן משנה בכותרות/סרטון; יעדכן את ההקשר בסיום |
 | 2026-10-08 | [סקיל ניתוח נתוני וובינר1](https://claude.ai/code/session_015gCGnjzYX6kETxCPgbR699) | ✅ 10% | transcription 13/163 done; agents drafting Zohar doc & rules check |
 | 2026-10-08 | [סרטון מרין וחגי 4](https://claude.ai/code/session_01QwsHAYnJqGRn675PeM6Wch) | ✅ 16% |  |
@@ -35,6 +49,9 @@
 
 | עודכן | שיחה | מלאה | מצב אחרון |
 |---|---|---|---|
+| 2026-10-20 | [משוב שיחת מכירה עם אייל טוני](https://claude.ai/code/session_01CYnjti1EAJahBKixWaQ4bc) | ✅ 15% (בארכיון) | מתקן ארבעה תיקונים ב-ClaudeMail CRM; מוסיף בדיקה יומית |
+| 2026-10-20 | [וובינר פרימיום לפי הדרכת לירון](https://claude.ai/code/session_012QTqDBnhpnADbNC6pPzpV9) | ✅ 51% | You've hit your session limit · resets 10pm (Asia/Beirut) |
+| 2026-10-19 | [הצגה עצמית בתסריט המכירה](https://claude.ai/code/session_016eUpNUfwVMkYu5qvNRgTHp) | ✅ 13% | fixed 2 script answers in Drive doc, verified saved |
 | 2026-10-18 | [משוב לשיחות מכירה1](https://claude.ai/code/session_013VUPk2J1ioji7k8ivRW6GL) | ✅ 8% (בארכיון) | added video length column to all folder templates; backup saved |
 | 2026-10-18 | [משוב לשיחות מכירה](https://claude.ai/code/session_01CUveKvxVQQJNSddiQFsQNa) | ✅ 22% (בארכיון) | session named משוב לשיחות מכירה1; skill and memory rule updated |
 | 2026-10-09 | [קורס המכירות](https://claude.ai/code/session_0157NjkLoU1Ke9s3m93REc17) | ✅ 13% (בארכיון) |  |
@@ -50,6 +67,11 @@
 
 | עודכן | שיחה | מלאה | מצב אחרון |
 |---|---|---|---|
+| 2026-10-23 | [וובינר סוויץ' · בדיקת הפניה לקביעת פגישה אחרי הרשמה](https://claude.ai/code/session_01MgKLe7S8CgmKbiMAiFZDey) | ? |  |
+| 2026-10-22 | [דף מכירה וובינר סוויץ' בקלאריטי](https://claude.ai/code/session_01DjhHeZfhkj7R8Ug2krc5Zn) | ✅ 24% (בארכיון) | artifact sharing needs your Share-menu change for Zohar |
+| 2026-10-22 | [קידום אורגני ו-GEO לקורסים](https://claude.ai/code/session_01CPfVBXukEVm3j9q5MCzPPJ) | ✅ 35% | chapter pages switched to Article schema; 25/105 verified |
+| 2026-10-21 | [תמלולי פודקאסט yeshmarketing.co.il](https://claude.ai/code/session_01X4m9ugTzZiWofctns9JeuJ) | ✅ 7% | להתחיל? |
+| 2026-10-21 | [תמלולי הפודקאסט](https://claude.ai/code/session_01UZiQw2aLiXcvMZRB5NxeZE) | ✅ 44% (בארכיון) | handoff ready; need current tab name for pending_title.py |
 | 2026-10-18 | [מייל מצב חזרה E5](https://claude.ai/code/session_01JWp1EXU5YQcHKfFkN8rLme) | ✅ 9% |  |
 | 2026-10-15 | [פודקאסט2](https://claude.ai/code/session_01EieAXudrSsZCAtmE5prsJJ) | ✅ 16% (בארכיון) | processing Gaia segment 50.6–64.4s, eye-contact correction video |
 | 2026-10-14 | [דף המכירה של וובינר סוויץ](https://claude.ai/code/session_015Xc24c6Yv7mqLQaTGR3wag) | ✅ 21% (בארכיון) | old analytics removed, A/B/C sped up; form bug reverted |
@@ -90,7 +112,9 @@
 
 | עודכן | שיחה | מלאה | מצב אחרון |
 |---|---|---|---|
-| 2026-10-18 | [תוכנת וובינרים - המשך בנייה](https://claude.ai/code/session_012QTqDBnhpnADbNC6pPzpV9) | ✅ 9% | Waiting on permission: PowerShell |
+| 2026-10-22 | [פאנל לעידית לשיפור וובינר](https://claude.ai/code/session_01FQUEVkXCCKtreyGkRTnoBK) | ✅ 21% | found 11.10.26 webinar transcript (.srt) and attendance (.csv) paths |
+| 2026-10-22 | [מעבירי וובינרים מובילים בעולם](https://claude.ai/code/session_01Tpq2N3Y8LmZeJRb6CU9tuU) | ✅ 33% | Brunson draft ready; awaiting your approval to publish |
+| 2026-10-22 | [רעיונות למייל לוובינר](https://claude.ai/code/session_01TjTRK8AXJ7cXfZVtprsPzr) | ✅ 55% | 8 of 10 post images ready; rerunning 2 missing |
 | 2026-10-13 | [עידית וובינר ומשוב 2](https://claude.ai/code/session_01VS3JBwAt1NLvmLWKvEUpRr) | ✅ 52% (בארכיון) | feedback doc revised; awaiting core issue analysis |
 | 2026-10-12 | [עידית וובינר ומשוב 1](https://claude.ai/code/session_01JW4ku7p5uf5wGzEz4xXNSu) | ✅ 23% (בארכיון) | handoff message corrected + ready to copy |
 | 2026-10-09 | [תוכנת וובינרים - המשך פרויקט](https://claude.ai/code/session_01Nj1iar3oRvSHkk7PnHF26S) | ✅ 12% (בארכיון) |  |
@@ -110,8 +134,8 @@
 
 | עודכן | שיחה | מלאה | מצב אחרון |
 |---|---|---|---|
+| 2026-10-20 | [וידאו · עריכה בסגנון יובל וגלריית מאיירים](https://claude.ai/code/session_013YivgnPEyray9Aj9Hsoern) | ⛔ 73% (בארכיון) | handoff prompt for new session drafted; user to paste it |
 | 2026-10-18 | [אופן תמלול הקלטות עם ג'מיני](https://claude.ai/code/session_01WAxVNwcB46F7imq6XqEHfq) | ✅ 12% (בארכיון) | explained 20-min chunking: quota, output limits, accuracy |
-| 2026-10-18 | [עריכת וידאו2](https://claude.ai/code/session_013YivgnPEyray9Aj9Hsoern) | ✅ 34% | Waiting on permission: PowerShell |
 | 2026-10-18 | [סקיל לעריכת סרטוני פרסומות](https://claude.ai/code/session_01XTLeps8gLqXAUw1AGTk6eq) | ✅ 32% (בארכיון) | reel-edit skill ready; handoff prompt for new chat given |
 | 2026-10-18 | [סרטוני טלפרומפטר למודעות](https://claude.ai/code/session_01PJxnaGN7N1xcmXCXT4LRKx) | ✅ 30% (בארכיון) | handed off to 'video editing 2' session; voice C ready |
 | 2026-10-14 | [כמה צופים בסרטוני הפאנל](https://claude.ai/code/session_012aj6T9FqFyRtkD8DYGbA43) | ✅ 9% (בארכיון) | לבנות את מדידת הצפייה האנונימית עכשיו, ולשלוח לך את הטיוטה כמסמך מסודר לעורך הדין? |
@@ -138,9 +162,10 @@
 
 | עודכן | שיחה | מלאה | מצב אחרון |
 |---|---|---|---|
+| 2026-10-21 | [השראה לאתר מ-eranstern.co.il](https://claude.ai/code/session_01Hoj2CFFc8M7WSsWZuKkkFG) | ✅ 16% (בארכיון) | הוספתי תמונות אמיתיות ועטיפות פודקאסט לטיוטה |
+| 2026-10-21 | [מבקרים אורגניים וממומנים באתר](https://claude.ai/code/session_018qok6xrbCkMBhW1YE4ZTmG) | ✅ 12% (בארכיון) | Calendly visits all hit prep form: 13 in GA, none elsewhere |
+| 2026-10-19 | [תמונות לפוסטים באתר דרך ChatGPT](https://claude.ai/code/session_01DHHpxpv4DHPsE4KRTFwZRX) | ✅ 9% (בארכיון) | Codex login not saved yet; waiting for you to sign in on phone |
 | 2026-10-18 | [איורים באתר](https://claude.ai/code/session_01UYuy7NKaxVVNgeH4MCiEN9) | ✅ 49% (בארכיון) | illustration A restored with Ferrari; awaiting approval to insert |
-| 2026-10-14 | [תמונות לפוסטים באתר דרך ChatGPT](https://claude.ai/code/session_01DHHpxpv4DHPsE4KRTFwZRX) | ✅ 9% | Codex login not saved yet; waiting for you to sign in on phone |
-| 2026-10-14 | [מבקרים אורגניים וממומנים באתר](https://claude.ai/code/session_018qok6xrbCkMBhW1YE4ZTmG) | ✅ 12% (בארכיון) | Calendly visits all hit prep form: 13 in GA, none elsewhere |
 | 2026-10-14 | [ממצאי בדיקת התוספים באתר yeshmarketing](https://claude.ai/code/session_01NToCZNzUva4f8ZzQWLf8zV) | ✅ 11% (בארכיון) | screenshot check fixed: hides hero video, waits for images |
 | 2026-10-14 | [אתר2](https://claude.ai/code/session_016pHXdhjiDAk9p6reZpB2nm) | ✅ 33% (בארכיון) | 2 pages updated: spacing & paragraphs fixed; mobile responsive |
 | 2026-10-08 | [דף כניסות ירד לאפס](https://claude.ai/code/session_013niCNA3t5vHVuvGvsp7a1R) | ✅ 10% (בארכיון) | verified 2 new leads in Airtable (Tali, Eyal) since 6.10; no new since 7.10 |
@@ -160,7 +185,8 @@
 
 | עודכן | שיחה | מלאה | מצב אחרון |
 |---|---|---|---|
-| 2026-10-19 | [CRM · דוח פולואפים ללידים (וואטסאפ ומייל) 5.10-19.10](https://claude.ai/code/session_01LpX733SZVcQCzp1KCSjZjo) | ✅ 18% |  |
+| 2026-10-20 | [הטריאל של Claude in Chrome](https://claude.ai/code/session_01Kiyc8VM8bq8ugXbcAakETk) | ✅ 16% | Oracle Cloud signup stuck; you must enter the card |
+| 2026-10-19 | [CRM · דוח פולואפים ללידים (וואטסאפ ומייל) 5.10-19.10](https://claude.ai/code/session_01LpX733SZVcQCzp1KCSjZjo) | ✅ 25% | שלחתי טבלת פולואפים למייל; רוב הוואטסאפים לא יצאו |
 | 2026-10-18 | [ריבוי חשבונות WhatsApp במחשב](https://claude.ai/code/session_01MUSi7fAFTYLZvPbpiSA7Ku) | ✅ 20% (בארכיון) | Two pages linked; title unchanged, awaiting in-site link decision |
 | 2026-10-15 | [לידים מוואטסאפ שלא תועדו](https://claude.ai/code/session_01FpvNGBG1mS6wMMsEz9vXy1) | ✅ 19% (בארכיון) | WhatsApp scan updates CRM cards too; LabelLeadEmails exit fixed |
 | 2026-10-14 | [ברכות יומולדת לחברים בווטסאפ](https://claude.ai/code/session_01Y18Tm76WHQJ2sifwxVYpCy) | ✅ 16% (בארכיון) | need greeting selection + Facebook cookie file decision |
@@ -189,30 +215,50 @@
 
 | עודכן | שיחה | מלאה | מצב אחרון |
 |---|---|---|---|
+| 2026-10-22 | [מצב גיבוי הקבצים ביוטיוב](https://claude.ai/code/session_01KzRKJtA12g77bPsZRn6Rys) | ✅ 8% | 36/93 recordings uploaded to YouTube; ~9 days left |
+| 2026-10-22 | [linkedin-agent-skill repository](https://claude.ai/code/session_01F7gcN4ZszzvcZtuVVjxQpF) | ✅ 15% | LinkedIn logged in; group not found, need group and draft choice |
+| 2026-10-22 | [מדיטציית loving kindness של רוני](https://claude.ai/code/session_01TAgb8XJSsXiSpZ1THAYFLB) | ✅ 9% | file emailed to yesh11111@gmail.com; WhatsApp skipped (bridge off) |
+| 2026-10-22 | [הפחתת עומסים לשיחת זום](https://claude.ai/code/session_01Y15jRweptosYpaPeVcyPYK) | ✅ 8% | transcription queue paused (140 of 273 left); waiting for resume |
+| 2026-10-22 | [כניסה לפייסבוק](https://claude.ai/code/session_017gs8uC9G9G8k5jUGxWxxwo) | ✅ 12% | Failed to authenticate: OAuth session expired and could not be refreshed |
+| 2026-10-22 | [מפת הכנה לפגישות מכירה](https://claude.ai/code/session_01CwCrSjzEkogMy92jyhS9Ni) | ✅ 32% | Ari transcript still running; wait or build from partial? |
+| 2026-10-22 | [פולואפ עומר ופגישה](https://claude.ai/code/session_01TjvQzHT5RtNGQVete8euZ1) | ✅ 50% | added no-webinar script section; created 3 Gmail labels |
+| 2026-10-22 | [CRM - מבנה ופולואפים1](https://claude.ai/code/session_01EuV7hAy2ERWFQNkB18JK1S) | ✅ 29% | Failed to authenticate: OAuth session expired and could not be refreshed |
+| 2026-10-22 | [משוב מכירה2](https://claude.ai/code/session_01Xg6kgg6os174xNbQcSiVvP) | ✅ 12% | Still waiting for your answer on speeding up the transcription: should I turn on all three steps? |
+| 2026-10-22 | [סיכון למחלות לב במשפחה](https://claude.ai/code/session_01XgfyuiaQfurKE8RvSg1EAF) | ✅ 23% (בארכיון) | updated risk estimate to ~85-89; family smoking lowers risk |
+| 2026-10-22 | [תזכורות לפגישה עם ארי במייל](https://claude.ai/code/session_018pAFHtXG22SKyUHQQCcqLQ) | ✅ 49% | פרק 71 תוקן ונבדק; מקפים בתבנית כל העמודים נשארו |
+| 2026-10-22 | [אלי אסדו1](https://claude.ai/code/session_01DmM9hF94iYebmKk6Xb1qqz) | ✅ 47% | added Ofir webinar tab to Eli's guide doc; link shared |
+| 2026-10-22 | [CRM2 פולואפ](https://claude.ai/code/session_01T471KjJzkd55wfZA5uKNyA) | ⛔ 82% | לבדוק? |
+| 2026-10-21 | [קוד PUK לנעילת הטלפון](https://claude.ai/code/session_01FcRzjZLYExrYEUVNWW3gZd) | ✅ 18% (בארכיון) | doc write 404; yesh11111 has no access to doc |
+| 2026-10-21 | [חלון קופץ לא מזוהה](https://claude.ai/code/session_018UPDUgykzZgZB4HoLe4SUn) | ✅ 8% (בארכיון) | black window likely a background transcription ffmpeg job, not a virus |
+| 2026-10-21 | [תכתובת אנאבלה](https://claude.ai/code/session_01DhqF5xUgkiwrmnzDpkCJof) | ✅ 26% (בארכיון) | three encouraging replies drafted; nothing sent |
+| 2026-10-21 | [טמפלייט אתגר](https://claude.ai/code/session_018SeMSHbXxHbigt4sZYdAqM) | ✅ 15% | needs new desktop chat named טמפלייט אתגר1 with handoff |
+| 2026-10-21 | [בן ציון (בנצי) גולדשטיין1](https://claude.ai/code/session_01Ua1dAagHqZaTuCigAJQ5PD) | ✅ 20% (בארכיון) | handoff message for Benny Goldstein's ticket fix ready to paste |
+| 2026-10-21 | [מטא · פרטי חיוב איטלקיים ודוח חודשי לפאולו](https://claude.ai/code/session_01988LETpJiTJhvjFzVYz6Yr) | ✅ 17% (בארכיון) | monthly Meta billing report to Paolo scheduled from Nov 1 |
+| 2026-10-20 | [בן ציון (בנצי) גולדשטיין2](https://claude.ai/code/session_0136LSummepo8YL3kjSEa55H) | ✅ 40% (בארכיון) | מפת ההסכמה עודכנה ל-11 קופסאות ו-89 שורות; עריכה תוקנה |
+| 2026-10-20 | [זיהוי ליד יהודית ברשתות](https://claude.ai/code/session_012Kmj2TgMcQbrVqnD7eCqVb) | ✅ 19% (בארכיון) | fixed Judith's CRM card and background check; search updated |
+| 2026-10-20 | [גיבוי קבצים לערוץ יוטיוב](https://claude.ai/code/session_01Un4oAHZUCdh7aB5cGWSVGn) | ✅ 29% (בארכיון) | You've hit your session limit · resets 2:40pm (Asia/Beirut) |
+| 2026-10-20 | [תוכנית ליווי לנסיגת חניכיים](https://claude.ai/code/session_01VmMXkmN4mqCssKAmfiwnhM) | ✅ 21% (בארכיון) | updated writing profile with Amnon's WhatsApp message as example |
+| 2026-10-19 | [ריבית 5% על 83 מיליון ש"ח](https://claude.ai/code/session_01NCPcFfBFnW33oYnoHrte2g) | ✅ 8% (בארכיון) | offered five Hebrew idioms for 'knows well'; recommends 'על בוריו' |
+| 2026-10-19 | [ליד בנצי גולדשטיין ל-CRM](https://claude.ai/code/session_01FnmKYJLiqEifmgdsz2HmBz) | ✅ 25% (בארכיון) | handoff summary for Ben Zion ready; session at 81% budget |
+| 2026-10-19 | [לשוניות ופולואפים ב-CRM](https://claude.ai/code/session_01BL2H5dBBNNgH26WV2VkFUc) | ✅ 35% (בארכיון) | CRM follow-up message drafted; ready to paste into new session |
+| 2026-10-19 | [התראות CRM על לידים מהעבר](https://claude.ai/code/session_01TasJhdZ3PC4Lx1kcsH7wnt) | ✅ 12% (בארכיון) | Should I build it? |
+| 2026-10-19 | [הקלטות פגישות רוני וישעיהו](https://claude.ai/code/session_01UFZy6JJKxbMNmenEbH7yDK) | ✅ 16% (בארכיון) | ממתין לאישורך בשיחה 'העברת חשבוניות' בנייח |
+| 2026-10-19 | [סרטון טלפרומפטר האחרון מהטלפון](https://claude.ai/code/session_016M2s3pRdgbkhcgLA8uvJdZ) | ✅ 13% (בארכיון) | fixed dagesh in ריבּ in subtitle video, memory updated |
+| 2026-10-19 | [העברת חשבוניות](https://claude.ai/code/session_01PWhMbgsi9QjSsakMgS5grt) | ✅ 53% (בארכיון) | Paolo shekel question sent; daily check and reminder set |
 | 2026-10-18 | [לשונית אורך](https://claude.ai/code/session_011y19iVAV9TfEie8L1u37po) | ✅ 9% (בארכיון) | length column now visible in subtitles video folder |
-| 2026-10-18 | [משוב מכירה2](https://claude.ai/code/session_01Xg6kgg6os174xNbQcSiVvP) | ✅ 61% | מסמך ארי הועבר לתיקיית הכנות; הרעיונות מסומנים |
-| 2026-10-18 | [סיכון למחלות לב במשפחה](https://claude.ai/code/session_01XgfyuiaQfurKE8RvSg1EAF) | ✅ 23% (בארכיון) | updated risk estimate to ~85-89; family smoking lowers risk |
 | 2026-10-18 | [צלילים והד בזום](https://claude.ai/code/session_01MhgTvpxLoWFgQKJappAYxZ) | ✅ 12% (בארכיון) | צלילי ווינדוס וההתראות כבויים; משימה קבועה בודקת |
 | 2026-10-18 | [פנייה לנועם על עמלת הפניה](https://claude.ai/code/session_017As6dLTag3RMLxeBvRWcGU) | ✅ 14% (בארכיון) | לשלוח אותה לנועם מהווטסאפ שלך, או שאתה מעדיף את גרסה 2? |
 | 2026-10-18 | [קובץ וורד גאונות וויטנאמית](https://claude.ai/code/session_01AtCjdXbpE1DRgnEgNYSkDP) | ✅ 15% (בארכיון) | organized sent-emails folder; trashed Forssmann draft |
-| 2026-10-18 | [אלי אסדו1](https://claude.ai/code/session_01DmM9hF94iYebmKk6Xb1qqz) | ✅ 31% | לעשות את 1? |
 | 2026-10-18 | [מספור כותרות ותתי-חלקים במסמך](https://claude.ai/code/session_01Jq6rVJ3NJxsgY6armfJu6k) | ⛔ 67% (בארכיון) | sales-call-debrief skill explained; offers Eyal call run |
-| 2026-10-18 | [העברת חשבוניות](https://claude.ai/code/session_01PWhMbgsi9QjSsakMgS5grt) | ✅ 53% | Paolo shekel question sent; daily check and reminder set |
-| 2026-10-16 | [התראות CRM על לידים מהעבר](https://claude.ai/code/session_01TasJhdZ3PC4Lx1kcsH7wnt) | ✅ 12% (בארכיון) | Should I build it? |
-| 2026-10-16 | [הקלטות פגישות רוני וישעיהו](https://claude.ai/code/session_01UFZy6JJKxbMNmenEbH7yDK) | ✅ 16% (בארכיון) | ממתין לאישורך בשיחה 'העברת חשבוניות' בנייח |
-| 2026-10-16 | [סרטון טלפרומפטר האחרון מהטלפון](https://claude.ai/code/session_016M2s3pRdgbkhcgLA8uvJdZ) | ✅ 13% (בארכיון) | fixed dagesh in ריבּ in subtitle video, memory updated |
 | 2026-10-15 | [מהו קודקס](https://claude.ai/code/session_01NLHptND9oY6Cd9GiRCcHm9) | ✅ 7% (בארכיון) | Codex is code-only; images come from ChatGPT's image model |
-| 2026-10-15 | [תזכורות לפגישה עם ארי במייל](https://claude.ai/code/session_018pAFHtXG22SKyUHQQCcqLQ) | ✅ 12% (בארכיון) | קישור זום נשלח ב-14.10; חסימת וואטסאפ נפתחת 21.10 |
 | 2026-10-15 | [קול מעוות בשיחה](https://claude.ai/code/session_01WAWA8CbG7WoX6E3hAeVY4a) | ✅ 8% | Voicemeeter stopped; uninstall needs your click in its window |
 | 2026-10-15 | [מייל CPBC לטענות מפתיעות](https://claude.ai/code/session_015nNCuqUwXmcUNhPpwmEhhu) | ✅ 51% | post design live on all 435 posts; shrimp post restructured |
 | 2026-10-15 | [פגישה עם אפרת ירדן](https://claude.ai/code/session_014svAvXr9wDukwie9epTaGh) | ✅ 18% (בארכיון) | reply to Efrat drafted in Gmail, unsent; checks updated |
 | 2026-10-15 | [הסתרת אתי משיחות עם מור](https://claude.ai/code/session_01JYLXiWyambFiSujCtaK4kt) | ? |  |
-| 2026-10-15 | [CRM2 פולואפ](https://claude.ai/code/session_01T471KjJzkd55wfZA5uKNyA) | ✅ 24% (בארכיון) | sales pipeline first in list; pages rebuilt, email relinked |
 | 2026-10-15 | [בעיית שמע בזום](https://claude.ai/code/session_017oAeycCuymr3kjbJkyASS8) | ✅ 8% (בארכיון) | your mic works; issue is on her side, audio device |
 | 2026-10-15 | [מילוי שאלון לפני פגישה](https://claude.ai/code/session_01Y7JyBbsyy9Aym78g1ZhWDD) | ✅ 61% (בארכיון) | reminder emails now use Switchy short link; test verified |
 | 2026-10-15 | [פולואפ CRM1](https://claude.ai/code/session_017kLNqt1s52m9icR9Q9dFoZ) | ✅ 33% (בארכיון) | Hebrew handoff drafted; Arsuf line removed from message |
 | 2026-10-15 | [אלי אסדו](https://claude.ai/code/session_01JiRPrdrTioPHuPsYdyThvV) | ✅ 58% (בארכיון) | tab renamed to אלי אסדו2; naming rule saved to skill+memory |
-| 2026-10-14 | [מטא · פרטי חיוב איטלקיים ודוח חודשי לפאולו](https://claude.ai/code/session_01988LETpJiTJhvjFzVYz6Yr) | ✅ 15% (בארכיון) | Meta report task set for Nov 1; updating records |
 | 2026-10-14 | [באנר יוטיוב ופייסבוק](https://claude.ai/code/session_01RQiD8wRwFzLKEoitpuYTLr) | ✅ 39% (בארכיון) |  |
 | 2026-10-14 | [מסמך הרצף האוטומטי להודעות נכנסות](https://claude.ai/code/session_018R7gsWKjwXtt7ghmVzBTaM) | ✅ 45% (בארכיון) | email-to-CRM channel live and tested; writing Word scenario doc |
 | 2026-10-14 | [זהר דולב - סרטון](https://claude.ai/code/session_01K3dngXZsiprPdR2Frw9oYN) | ✅ 25% (בארכיון) | doc moved to Zohar's folder; link unchanged, still marked draft |
@@ -252,7 +298,6 @@
 | 2026-10-08 | [סרטון מרין וחגי1](https://claude.ai/code/session_0133gDcFom4yz8yekTpHpjun) | ✅ 16% (בארכיון) | handoff to new chat with context efficiency practices summary |
 | 2026-10-08 | [איתמר לוין](https://claude.ai/code/session_016r7YrKq8P5Png4o74qVnLt) | ✅ 12% (בארכיון) | memorial post drafted in Hebrew; awaiting verification before publishing |
 | 2026-10-08 | [מה קרה שהמחשב בקושי זז](https://claude.ai/code/session_01JY9MXCij4imZaG2T9ke68y) | ✅ 10% (בארכיון) | documented client-facing doc rules; proposed chat title |
-| 2026-10-08 | [אמנון לבב 1](https://claude.ai/code/session_01VmMXkmN4mqCssKAmfiwnhM) | ✅ 8% (בארכיון) |  |
 | 2026-10-08 | [עידית חריף](https://claude.ai/code/session_01R4kaaAszSmT3VssN44kL62) | ✅ 23% (בארכיון) | session summary + next steps documented; ready to send |
 | 2026-10-08 | [קיצור משכי שיחה להצגה בטאב לקוחות](https://claude.ai/code/session_011tDbUY1fTTLWaaarmCayPh) | ✅ 26% (בארכיון) | rewriting leads with yesh-voice; 15m until complete |
 | 2026-10-07 | [עידית חריף2](https://claude.ai/code/session_01Q8MAcz9dE9gynyhSA1R9Gp) | ✅ 9% |  |
