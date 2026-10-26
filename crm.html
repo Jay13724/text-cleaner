@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<title>CRM</title>
+<style>
+body{font-family:Arial,sans-serif;font-size:18px;line-height:1.6;padding:20px;max-width:520px;margin:0 auto;background:#fff;color:#111}
+a.b{display:inline-block;padding:10px 16px;border-radius:8px;background:#f5c518;color:#111;text-decoration:none;margin:4px;font-weight:bold}
+.muted{color:#666}
+</style>
+</head>
+<body>
+<div id="out"><p class="muted">שומר...</p></div>
+<script>
+// ממסר ל-CRM: שולח את הלחיצה ל-Web App בלי עוגיות של גוגל, כדי שגוגל לא יוסיף /u/1/ לכתובת
+// (באג של כמה חשבונות גוגל באותו דפדפן). הכתובת קבועה כאן; הטוקן מגיע בקישור עצמו.
+var EXEC = "https://script.google.com/macros/s/AKfycbzRdrx1FdE0lM7kuU4j-78ey4NdIbKzqqQOWbHW_DNlKI4Cx3Xx5WnnIL3o3ezKZVHkkA/exec";
+var PAGE = "https://claude.ai/artifact/GHpWZE69Kee5S69mvr9Tfn";
+var RESULTS = {closed:"סגר", thinking:"חושב", notnow:"לא עכשיו", nofit:"לא מתאים"};
+var q = new URLSearchParams(location.search);
+var out = document.getElementById("out");
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function rel(extra){
+  var p = new URLSearchParams();
+  ["action","k","id","call"].forEach(function(x){ if(q.get(x)) p.set(x,q.get(x)); });
+  for (var x in extra) p.set(x, extra[x]);
+  return "?" + p.toString();
+}
+function done(o){
+  var h;
+  if (o.ok) {
+    h = "<h2>✔ " + esc(o.name) + ": " + esc(o.result) + "</h2><p>" + esc(o.msg) + "</p>" + (o.test ? '<p class="muted">ליד בדיקה: נשמר רק בגיליון.</p>' : "");
+    if (q.get("r") === "attend_yes") h += "<p>מה יצא?</p>" + Object.keys(RESULTS).map(function(x){ return '<a class="b" href="' + rel({r:x}) + '">' + RESULTS[x] + "</a>"; }).join("");
+    if (q.get("r") === "notnow" && !q.get("days")) h += "<p>לחזור אליו בעוד:</p>" + [[14,"שבועיים"],[30,"חודש"],[90,"3 חודשים"],[180,"חצי שנה"]].map(function(x){ return '<a class="b" href="' + rel({r:"notnow",days:x[0]}) + '">' + x[1] + "</a>"; }).join("");
+  } else {
+    h = "<h2>משהו לא נשמר</h2><p>" + esc(o.error) + "</p><p>אפשר לנסות שוב מהמייל או מהדף.</p>";
+  }
+  out.innerHTML = h + '<p style="margin-top:20px"><a href="' + PAGE + '">לפתוח את הדף</a></p>';
+}
+if (q.get("action") !== "crmMark" || !q.get("k")) {
+  done({ok:false, error:"קישור לא תקין"});
+} else {
+  q.set("fmt","json");
+  fetch(EXEC + "?" + q.toString(), {credentials:"omit", redirect:"follow"})
+    .then(function(r){ return r.json(); })
+    .then(done)
+    .catch(function(e){ done({ok:false, error:"אין חיבור לשרת (" + e.message + ")"}); });
+  q.delete("fmt");
+}
+</script>
+</body>
+</html>
