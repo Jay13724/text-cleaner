@@ -217,6 +217,7 @@
 
 | עודכן | שיחה | מלאה | מצב אחרון |
 |---|---|---|---|
+| 2026-11-07 | [אישי · פרטי הסוכנות האיטלקית שהמירה את הרישיון](https://claude.ai/code/session_01AuoNtFCddiqUEWWHnhUM86) | ✅ | Autoscuola Prealpi, מילאנו: info@autoscuolaprealpi.it, 02 3928 7733. נשלח במייל |
 | 2026-10-22 | [מצב גיבוי הקבצים ביוטיוב](https://claude.ai/code/session_01KzRKJtA12g77bPsZRn6Rys) | ✅ 8% | 36/93 recordings uploaded to YouTube; ~9 days left |
 | 2026-10-22 | [linkedin-agent-skill repository](https://claude.ai/code/session_01F7gcN4ZszzvcZtuVVjxQpF) | ✅ 15% | LinkedIn logged in; group not found, need group and draft choice |
 | 2026-10-22 | [מדיטציית loving kindness של רוני](https://claude.ai/code/session_01TAgb8XJSsXiSpZ1THAYFLB) | ✅ 9% | file emailed to yesh11111@gmail.com; WhatsApp skipped (bridge off) |
