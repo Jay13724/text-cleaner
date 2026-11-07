@@ -8,6 +8,7 @@
 
 | עודכן | שיחה | מלאה | מצב אחרון |
 |---|---|---|---|
+| 2026-11-07 | [שאלון ההכנה · "5 דקות בלבד" בכל ההודעות ופתרון ל"אין לי זמן"](https://claude.ai/code/session_01AuoNtEgAKi8amSPFfY6sdg) | ✅ | Doc בדרייב (תיקיית האוטומציה): כל הנוסחים עם 5 דקות, ממתין לאישור |
 | 2026-10-22 | [מצב גיבוי הקבצים ביוטיוב](https://claude.ai/code/session_01KzRKJtA12g77bPsZRn6Rys) | ✅ 8% | 36/93 recordings uploaded to YouTube; ~9 days left |
 | 2026-10-22 | [linkedin-agent-skill repository](https://claude.ai/code/session_01F7gcN4ZszzvcZtuVVjxQpF) | ✅ 15% | LinkedIn logged in; group not found, need group and draft choice |
 | 2026-10-22 | [פאנל לעידית לשיפור וובינר](https://claude.ai/code/session_01FQUEVkXCCKtreyGkRTnoBK) | ✅ 21% | found 11.10.26 webinar transcript (.srt) and attendance (.csv) paths |
@@ -67,6 +68,7 @@
 
 | עודכן | שיחה | מלאה | מצב אחרון |
 |---|---|---|---|
+| 2026-11-07 | [שאלון ההכנה · "5 דקות בלבד" בכל ההודעות ופתרון ל"אין לי זמן"](https://claude.ai/code/session_01AuoNtEgAKi8amSPFfY6sdg) | ✅ | Doc בדרייב (תיקיית האוטומציה): כל הנוסחים עם 5 דקות, ממתין לאישור |
 | 2026-10-23 | [וובינר סוויץ' · בדיקת הפניה לקביעת פגישה אחרי הרשמה](https://claude.ai/code/session_01MgKLe7S8CgmKbiMAiFZDey) | ? |  |
 | 2026-10-22 | [דף מכירה וובינר סוויץ' בקלאריטי](https://claude.ai/code/session_01DjhHeZfhkj7R8Ug2krc5Zn) | ✅ 24% (בארכיון) | artifact sharing needs your Share-menu change for Zohar |
 | 2026-10-22 | [קידום אורגני ו-GEO לקורסים](https://claude.ai/code/session_01CPfVBXukEVm3j9q5MCzPPJ) | ✅ 35% | chapter pages switched to Article schema; 25/105 verified |
