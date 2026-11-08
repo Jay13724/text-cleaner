@@ -8,6 +8,8 @@
 
 | עודכן | שיחה | מלאה | מצב אחרון |
 |---|---|---|---|
+| 2026-11-08 | [דברים משעשעים של 7 עד 9 דקות](https://claude.ai/code/session_01AuoNtHM5whnp9MzFy5oAB9) | ✅ 19% | השאלון: המיילים החדשים (7-9 דקות) פעילים; 4 תבניות וואטסאפ ממתינות לאישור מטא; קלנדלי ושורת רדיו גאגא ידנית |
+| 2026-11-08 | [שאלון ההכנה · סטטוס שינוי התזכורות (7 עד 9 דקות)](https://claude.ai/code/session_01AuoNtHL3Bfz28uhgrBJsHk) | ✅ | בדיקת סטטוס בלבד, העבודה בשיחה "דברים משעשעים" |
 | 2026-11-07 | [שאלון ההכנה · "5 דקות בלבד" בכל ההודעות ופתרון ל"אין לי זמן"](https://claude.ai/code/session_01AuoNtEgAKi8amSPFfY6sdg) | ✅ | Doc בדרייב (תיקיית האוטומציה): כל הנוסחים עם 5 דקות, ממתין לאישור |
 | 2026-10-22 | [מצב גיבוי הקבצים ביוטיוב](https://claude.ai/code/session_01KzRKJtA12g77bPsZRn6Rys) | ✅ 8% | 36/93 recordings uploaded to YouTube; ~9 days left |
 | 2026-10-22 | [linkedin-agent-skill repository](https://claude.ai/code/session_01F7gcN4ZszzvcZtuVVjxQpF) | ✅ 15% | LinkedIn logged in; group not found, need group and draft choice |
