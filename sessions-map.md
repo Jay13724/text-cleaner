@@ -70,6 +70,7 @@
 
 | עודכן | שיחה | מלאה | מצב אחרון |
 |---|---|---|---|
+| 2026-11-14 | [וובינר סוויץ' · נרשמים לא קובעים שיחה (בדיקה 14.11)](https://claude.ai/code/session_01AuoNtFfsjezNvynqQbpHY1) | ✅ | מני ו-ערן (13-14.11, אנדרואיד בתוך פייסבוק/אינסטגרם) לא קבעו; האתר חסום מהענן, צריך בדיקה מהטלפון/PC |
 | 2026-11-07 | [שאלון ההכנה · "5 דקות בלבד" בכל ההודעות ופתרון ל"אין לי זמן"](https://claude.ai/code/session_01AuoNtEgAKi8amSPFfY6sdg) | ✅ | Doc בדרייב (תיקיית האוטומציה): כל הנוסחים עם 5 דקות, ממתין לאישור |
 | 2026-10-23 | [וובינר סוויץ' · בדיקת הפניה לקביעת פגישה אחרי הרשמה](https://claude.ai/code/session_01MgKLe7S8CgmKbiMAiFZDey) | ? |  |
 | 2026-10-22 | [דף מכירה וובינר סוויץ' בקלאריטי](https://claude.ai/code/session_01DjhHeZfhkj7R8Ug2krc5Zn) | ✅ 24% (בארכיון) | artifact sharing needs your Share-menu change for Zohar |
