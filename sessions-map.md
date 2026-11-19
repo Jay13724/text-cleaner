@@ -197,7 +197,7 @@
 
 | עודכן | שיחה | מלאה | מצב אחרון |
 |---|---|---|---|
-| 2026-11-19 | [אתר · הערכת קורס SEO של גרישה פיינברג](https://claude.ai/code/session_01AuoNtJAcBF7SG4yhmokNnh) | ? | נבנתה תוכנית "קידום אורגני אוטומטי" (8 אשכולות, seo-autopilot) בדרייב; ממתין להעברה לשיחה במחשב |
+| 2026-11-19 | [אתר · הערכת קורס SEO של גרישה פיינברג](https://claude.ai/code/session_01AuoNtJAcBF7SG4yhmokNnh) | ? | תוכנית "קידום אורגני אוטומטי" v2 בדרייב (הורדת הקורס, GEO, אשכול קורסים, נייד); הועברה לביצוע במחשב |
 | 2026-11-12 | [שיפור המרה וחוויית גלישה באתר](https://claude.ai/code/session_01AuoNtGUyvDvjbCk9ANNGhJ) | ? |  |
 | 2026-11-10 | [סקיל דף2](https://claude.ai/code/session_01AuoNtEGPLiLvgD2u9AEJSZ) | ? |  |
 | 2026-11-10 | [סקיל דף1](https://claude.ai/code/session_01AuoNtEmscsGkYgB7VnuqYq) | ? |  |
