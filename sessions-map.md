@@ -50,7 +50,7 @@
 
 | עודכן | שיחה | מלאה | מצב אחרון |
 |---|---|---|---|
-| 2026-11-20 | [וובינר סוויץ' · הרשמת ניסיון לבדיקת ההודעות (חסום, המחשב כבוי)](https://claude.ai/code/session_01AuoNtG8QgAmGKEcv795FGC) | ✅ 5% | חסום: המערכת רצה מהמחשב, שהיה כבוי. לבצע משיחה במחשב |
+| 2026-11-20 | [וובינר סוויץ' · סימולציית ההודעות לשיחת התאמה (נשלחה במייל)](https://claude.ai/code/session_01AuoNtG8QgAmGKEcv795FGC) | ✅ 10% | סימולציה נשלחה במייל; נמצא אימוג'י שבור בתזכורת השאלון (לתקן מהמחשב) |
 | 2026-11-14 | [וובינר סוויץ' · נרשמים לא קובעים שיחה (בדיקה 14.11)](https://claude.ai/code/session_01AuoNtFfsjezNvynqQbpHY1) | ? |  |
 | 2026-11-12 | [תמלולי הפודקאסט1](https://claude.ai/code/session_01AuoNtHyp3XyERxqZckBbds) | ? |  |
 | 2026-11-12 | [מסר מזוקק+32](https://claude.ai/code/session_01AuoNtEv5jJEX5K2jQ6F8SU) | ? |  |
