@@ -50,6 +50,7 @@
 
 | עודכן | שיחה | מלאה | מצב אחרון |
 |---|---|---|---|
+| 2026-11-23 | [וובינר סוויץ' · מחשבון שידורים, הכנסה וכיסוי השקעה](https://claude.ai/code/session_01AuoNtHjHRyQMdVXqKrvu7E) | ✅ | מחשבון: https://claude.ai/artifact/23oowgMmCiT3dV2ksNtTpv . הועבר לשני המחשבים: קישור עם מספרי השאלון בכל מפת שיחה |
 | 2026-11-20 | [וובינר סוויץ' · ניסוי הודעות שיחת התאמה בשני מסלולים (במייל, 21.11)](https://claude.ai/code/session_01AuoNtG8QgAmGKEcv795FGC) | ✅ 15% | ניסוי הודעות הסתיים (במייל בלבד, 21.11). פתוח: אימוג'י שבור בתזכורת השאלון, לתקן מהמחשב |
 | 2026-11-14 | [וובינר סוויץ' · נרשמים לא קובעים שיחה (בדיקה 14.11)](https://claude.ai/code/session_01AuoNtFfsjezNvynqQbpHY1) | ? |  |
 | 2026-11-12 | [תמלולי הפודקאסט1](https://claude.ai/code/session_01AuoNtHyp3XyERxqZckBbds) | ? |  |
