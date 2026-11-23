@@ -232,6 +232,7 @@
 
 | עודכן | שיחה | מלאה | מצב אחרון |
 |---|---|---|---|
+| 2026-11-23 | [כלים · משימות מתוזמנות בענן במקום במחשב](https://claude.ai/code/session_01AuoNtGf9MnUp6V77EvnEMV) | ✅ | הוראה קבועה נוספה ל־CLAUDE.md; תיקון IDEAS ממתין לאישור |
 | 2026-11-12 | [חיבור Claude Code לאינסטגרם](https://claude.ai/code/session_01AuoNtJxXBM4Pioi6Cuze9R) | ? |  |
 | 2026-11-12 | [Claude for Google Workspace תוסף](https://claude.ai/code/session_01AuoNtGVats7TdCMtcsk6im) | ? |  |
 | 2026-11-09 | [רענון עץ השיחות ב-VS Code](https://claude.ai/code/session_01AuoNtJb27bqmL7oidJPi7J) | ? |  |
