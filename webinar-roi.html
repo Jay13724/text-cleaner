@@ -1,0 +1,287 @@
+<title>מחשבון שידורים והחזר</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700&family=Assistant:wght@400;600;700&display=swap">
+<style>
+/* Layout: control panel (inputs) beside a results column; stacks on phone. */
+:root{
+  --bg:#f3f5f4; --panel:#ffffff; --fg:#17211d; --muted:#5d6b65; --line:#d6ddd9;
+  --accent:#1f6b57; --accent-soft:#e1efe9; --warn:#a8540f; --warn-soft:#fbeee2;
+  --good:#1f7a3f; --bar:#7fb3a3; --bar2:#c9d7d1;
+  --display:"Rubik",Arial,sans-serif; --body:"Assistant",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111816; --panel:#19221f; --fg:#e7eeeb; --muted:#9aaba4; --line:#2c3833;
+  --accent:#5fc3a4; --accent-soft:#1d3029; --warn:#f0a35e; --warn-soft:#33261a;
+  --good:#6fd394; --bar:#3f8a74; --bar2:#2e3b36; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111816; --panel:#19221f; --fg:#e7eeeb; --muted:#9aaba4; --line:#2c3833;
+  --accent:#5fc3a4; --accent-soft:#1d3029; --warn:#f0a35e; --warn-soft:#33261a;
+  --good:#6fd394; --bar:#3f8a74; --bar2:#2e3b36; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.5;
+  padding-block:20px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:18px}
+h1{font-family:var(--display);font-size:1.7rem;margin:0;text-wrap:balance}
+h2{font-family:var(--display);font-size:1.1rem;margin:0 0 10px}
+.sub{color:var(--muted);margin:2px 0 0}
+.lead{font-family:var(--display);color:var(--accent)}
+.grid{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.inputs{display:grid;gap:12px}
+.grp{font-size:.78rem;letter-spacing:.04em;color:var(--muted);font-weight:700;margin-top:6px;border-top:1px solid var(--line);padding-top:10px}
+.grp:first-child{border-top:0;padding-top:0;margin-top:0}
+.f{display:grid;grid-template-columns:1fr 110px;gap:8px;align-items:center}
+.f label{font-size:.95rem}
+.f small{display:block;color:var(--muted);font-size:.78rem;line-height:1.3}
+.f input{width:100%;font:inherit;font-variant-numeric:tabular-nums;padding:6px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);text-align:left;direction:ltr}
+.f input:focus{outline:2px solid var(--accent);outline-offset:1px}
+.f.q input{background:var(--accent-soft)}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+button{font:inherit;font-weight:600;border:1px solid var(--accent);background:var(--accent);color:var(--panel);padding:7px 12px;border-radius:8px;cursor:pointer}
+button.ghost{background:transparent;color:var(--accent)}
+button:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+.note{font-size:.82rem;color:var(--muted)}
+.res{display:grid;gap:18px;min-width:0}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+@media (max-width:620px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.k{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px}
+.k .l{font-size:.82rem;color:var(--muted)}
+.k .v{font-family:var(--display);font-size:1.45rem;font-variant-numeric:tabular-nums;direction:ltr;text-align:right}
+.k .s{font-size:.8rem;color:var(--muted)}
+.k.hl{border-color:var(--accent);background:var(--accent-soft)}
+.pill{display:inline-block;font-size:.8rem;font-weight:700;padding:2px 9px;border-radius:99px}
+.pill.ok{background:var(--accent-soft);color:var(--good)}
+.pill.no{background:var(--warn-soft);color:var(--warn)}
+.funnel{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-variant-numeric:tabular-nums}
+.funnel span{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:4px 10px}
+.funnel i{color:var(--muted);font-style:normal}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:.95rem}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th{font-size:.8rem;color:var(--muted);font-weight:700}
+td.n{direction:ltr;text-align:right}
+tr.cur td{background:var(--accent-soft);font-weight:700}
+tr.hit td:first-child::after{content:" ✓";color:var(--good)}
+svg text{fill:var(--muted);font-family:var(--body);font-size:11px}
+.say{background:var(--accent-soft);border-radius:10px;padding:12px 14px;line-height:1.7;max-width:75ch}
+.say p{margin:0 0 8px}.say p:last-child{margin:0}
+.toast{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:8px 14px;border-radius:8px;font-size:.9rem}
+@media (prefers-reduced-motion:no-preference){.k .v{transition:color .2s}}
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>מחשבון שידורים, הכנסה וכיסוי השקעה <span class="lead" id="leadName"></span></h1>
+    <p class="sub">כמה שידורים בחודש, כמה נרשמים, ומתי ההשקעה בליווי חוזרת. שדות ירוקים מגיעים מהשאלון של הליד. כל שינוי מתעדכן מיד.</p>
+  </header>
+
+  <div class="grid">
+    <form class="panel inputs" id="form" autocomplete="off">
+      <div class="grp">מהשאלון</div>
+      <div class="f q"><label for="i">הכנסה חודשית היום (₪)</label><input id="i" type="number" min="0" step="1000"></div>
+      <div class="f q"><label for="t">יעד הכנסה חודשי (₪)</label><input id="t" type="number" min="0" step="5000"></div>
+      <div class="f q"><label for="b">מוכנות להשקיע בפרסום בחודש (₪)<small>אם ענה בשאלון. רק להשוואה מול התקציב הנדרש</small></label><input id="b" type="number" min="0" step="1000"></div>
+
+      <div class="grp">המוצר והשידור</div>
+      <div class="f"><label for="p">מחיר המוצר בוובינר (₪)</label><input id="p" type="number" min="0" step="100"></div>
+      <div class="f"><label for="c">שידורים בחודש</label><input id="c" type="number" min="0" max="30" step="1"></div>
+      <div class="f"><label for="r">נרשמים ממומנים לשידור</label><input id="r" type="number" min="0" step="10"></div>
+      <div class="f"><label for="o">נרשמים בלי פרסום לשידור<small>רשימה, קהילה, אורגני</small></label><input id="o" type="number" min="0" step="10"></div>
+
+      <div class="grp">יחסי המרה ועלויות</div>
+      <div class="f"><label for="l">עלות נרשם ממומן (₪)</label><input id="l" type="number" min="0" step="1"></div>
+      <div class="f"><label for="s">אחוז הגעה לשידור (%)</label><input id="s" type="number" min="0" max="100" step="1"></div>
+      <div class="f"><label for="v">אחוז רכישה מהנוכחים (%)<small>5% טוב, 10% מעולה</small></label><input id="v" type="number" min="0" max="100" step="0.5"></div>
+
+      <div class="grp">ההשקעה והזמן</div>
+      <div class="f"><label for="x">השקעה בליווי (₪)<small>4 × 5,000 = 20,000, או 19,000 מראש</small></label><input id="x" type="number" min="0" step="1000"></div>
+      <div class="f"><label for="m">חודשי עקומת למידה<small>עד שמגיעים לקצב המלא</small></label><input id="m" type="number" min="0" max="12" step="1"></div>
+
+      <div class="btns">
+        <button type="button" id="copy">העתק קישור עם המספרים</button>
+        <button type="button" class="ghost" id="reset">ערכי דוגמה</button>
+      </div>
+      <p class="note" id="srcNote"></p>
+    </form>
+
+    <div class="res">
+      <section class="kpis" aria-label="תוצאה חודשית בקצב מלא">
+        <div class="k hl"><div class="l">הכנסה בחודש</div><div class="v" id="kRev"></div><div class="s" id="kRevS"></div></div>
+        <div class="k"><div class="l">תקציב פרסום בחודש</div><div class="v" id="kAds"></div><div class="s" id="kAdsS"></div></div>
+        <div class="k"><div class="l">רווח אחרי פרסום</div><div class="v" id="kProfit"></div><div class="s" id="kRoas"></div></div>
+        <div class="k"><div class="l">ההשקעה מכוסה</div><div class="v" id="kCover"></div><div class="s" id="kCoverS"></div></div>
+      </section>
+
+      <section class="panel">
+        <h2>המשפך של שידור אחד</h2>
+        <div class="funnel" id="funnel"></div>
+        <p class="note" id="gapLine" style="margin:10px 0 0"></p>
+      </section>
+
+      <section class="panel">
+        <h2>מספר שידורים בחודש מול הכנסה</h2>
+        <div class="tw"><table id="tbl"><thead><tr>
+          <th>שידורים בחודש</th><th>מכירות</th><th>הכנסה</th><th>פרסום</th><th>רווח</th><th>מהיעד</th><th>ההשקעה מכוסה</th>
+        </tr></thead><tbody></tbody></table></div>
+        <p class="note">השורה המודגשת היא הקצב שנבחר. ✓ מסמן שורה שמגיעה ליעד. "ההשקעה מכוסה" כולל את עקומת הלמידה.</p>
+      </section>
+
+      <section class="panel">
+        <h2>רווח מצטבר מול ההשקעה, 12 חודשים</h2>
+        <div class="tw"><svg id="chart" viewBox="0 0 720 240" width="100%" role="img" aria-label="רווח מצטבר לפי חודש"></svg></div>
+        <p class="note" id="rampNote"></p>
+      </section>
+
+      <section class="panel">
+        <h2>מה לומר בשיחה</h2>
+        <div class="say" id="say"></div>
+      </section>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+var KEYS=["i","t","b","p","c","r","o","l","s","v","x","m"];
+var DEF={i:20000,t:120000,b:0,p:2000,c:4,r:250,o:0,l:15,s:40,v:8,x:20000,m:3};
+var $=function(id){return document.getElementById(id)};
+var nf=new Intl.NumberFormat("he-IL",{maximumFractionDigits:0});
+function ils(n){return "₪"+nf.format(Math.round(n))}
+function num(n,d){return new Intl.NumberFormat("he-IL",{maximumFractionDigits:d||0}).format(n)}
+
+// Parse a questionnaire value like "100-150 אלף", "50,000", "70K" -> number in ₪ (lower end of a range)
+function parseMoney(raw){
+  if(raw==null||raw==="")return null;
+  var s=String(raw).replace(/,/g,"");
+  var m=s.match(/\d+(\.\d+)?/g); if(!m)return null;
+  var n=parseFloat(m[0]);
+  if(/אלף|k/i.test(s)||n<1000) n*=1000;
+  return n;
+}
+
+// Read values: hash "#p2000-c4-r250..." (works inside a claude.ai artifact) or query "?p=2000&c=4&name=..."
+function readUrl(){
+  var out={},name="";
+  try{
+    var h=decodeURIComponent((location.hash||"").slice(1));
+    h.split("-").forEach(function(part){var mm=part.match(/^([a-z])(\d+(?:\.\d+)?)$/);if(mm&&KEYS.indexOf(mm[1])>=0)out[mm[1]]=parseFloat(mm[2]);});
+  }catch(e){}
+  try{
+    var q=new URLSearchParams(location.search);
+    KEYS.forEach(function(k){if(q.has(k)){var v=(k==="i"||k==="t"||k==="b")?parseMoney(q.get(k)):parseFloat(q.get(k));if(v!=null&&!isNaN(v))out[k]=v;}});
+    name=q.get("name")||"";
+  }catch(e){}
+  return {vals:out,name:name};
+}
+
+function get(){var o={};KEYS.forEach(function(k){var v=parseFloat($(k).value);o[k]=isNaN(v)?0:v});return o}
+
+function calc(o,cycles){
+  var regs=o.r+o.o, att=regs*o.s/100, sales=att*o.v/100;
+  var revW=sales*o.p, adsW=o.r*o.l;
+  var c=cycles==null?o.c:cycles;
+  var rev=revW*c, ads=adsW*c, profit=rev-ads;
+  // ramp: month k of m learning months runs at k/(m+1) of full pace
+  var cum=0, coverMonth=null, months=[];
+  for(var k=1;k<=12;k++){
+    var f=o.m>0?Math.min(1,k/(o.m+1)):1;
+    cum+=profit*f; months.push(cum);
+    if(coverMonth===null&&cum>=o.x&&o.x>0)coverMonth=k;
+  }
+  if(o.x<=0)coverMonth=0;
+  return {regs:regs,att:att,sales:sales,revW:revW,adsW:adsW,rev:rev,ads:ads,profit:profit,roas:ads>0?rev/ads:null,coverMonth:coverMonth,months:months,salesM:sales*c};
+}
+
+function render(){
+  var o=get(), R=calc(o);
+  $("kRev").textContent=ils(R.rev);
+  $("kRevS").textContent=num(R.salesM,1)+" מכירות · "+(o.i>0?("פי "+num(R.rev/o.i,1)+" מהיום"):"");
+  $("kAds").textContent=ils(R.ads);
+  var bud=o.b>0?(R.ads<=o.b?"בתוך המוכנות שלו ("+ils(o.b)+")":"מעל המוכנות שלו ("+ils(o.b)+")"):"לשידור: "+ils(R.adsW);
+  $("kAdsS").textContent=bud;
+  $("kProfit").textContent=ils(R.profit);
+  $("kRoas").textContent=R.roas?("כל שקל בפרסום מחזיר "+num(R.roas,1)+" ₪"):"בלי פרסום ממומן";
+  $("kCover").textContent=R.coverMonth===null?"מעל שנה":(R.coverMonth===0?"—":"חודש "+R.coverMonth);
+  $("kCoverS").innerHTML=R.coverMonth!==null&&R.coverMonth<=4?'<span class="pill ok">בתוך 4 חודשי הליווי</span>':(R.coverMonth===null?'<span class="pill no">לא מכסה בשנה</span>':'<span class="pill no">אחרי סיום הליווי</span>');
+
+  $("funnel").innerHTML=
+    "<span>"+num(R.regs)+" נרשמים</span><i>←</i><span>"+num(R.att)+" נוכחים ("+num(o.s)+"%)</span><i>←</i><span>"+num(R.sales,1)+" רוכשים ("+num(o.v,1)+"%)</span><i>←</i><span>"+ils(R.revW)+" לשידור</span>";
+
+  var gap="";
+  if(o.t>0){
+    var needCycles=R.revW>0?Math.ceil(o.t/R.revW):null;
+    var needRegs=(o.c>0&&o.s>0&&o.v>0&&o.p>0)?Math.ceil(o.t/(o.c*o.p*(o.s/100)*(o.v/100))):null;
+    gap="כדי להגיע ל־"+ils(o.t)+" בחודש: "+(needCycles?needCycles+" שידורים בחודש בקצב הנוכחי":"—")+(needRegs?", או "+num(needRegs)+" נרשמים לשידור ב־"+o.c+" שידורים.":".")+
+      (o.r>0&&o.v>0&&o.s>0?" עלות פרסום לרכישה אחת: "+ils(o.l/((o.s/100)*(o.v/100)))+".":"");
+  }
+  $("gapLine").textContent=gap;
+
+  var tb=$("tbl").tBodies[0]; tb.innerHTML="";
+  var maxC=Math.max(8,o.c);
+  for(var c=1;c<=maxC;c++){
+    var X=calc(o,c), tr=document.createElement("tr");
+    if(c===o.c)tr.className="cur";
+    if(o.t>0&&X.rev>=o.t)tr.className+=" hit";
+    tr.innerHTML="<td>"+c+"</td><td class='n'>"+num(X.salesM,1)+"</td><td class='n'>"+ils(X.rev)+"</td><td class='n'>"+ils(X.ads)+"</td><td class='n'>"+ils(X.profit)+"</td><td class='n'>"+(o.t>0?num(100*X.rev/o.t)+"%":"—")+"</td><td>"+(X.coverMonth===null?"מעל שנה":(X.coverMonth===0?"—":"חודש "+X.coverMonth))+"</td>";
+    tb.appendChild(tr);
+  }
+
+  drawChart(R.months,o.x);
+  $("rampNote").textContent=o.m>0?("עקומת למידה: בחודשים 1 עד "+o.m+" הקצב עולה בהדרגה ("+Array.from({length:o.m},function(_,k){return Math.round(100*(k+1)/(o.m+1))+"%"}).join(", ")+"), ומחודש "+(o.m+1)+" קצב מלא. הקו המקווקו הוא ההשקעה בליווי."):"בלי עקומת למידה: קצב מלא מהחודש הראשון. הקו המקווקו הוא ההשקעה בליווי.";
+
+  say(o,R);
+  writeHash(o);
+}
+
+function drawChart(arr,inv){
+  var W=720,H=240,L=64,Rm=12,T=14,B=28;
+  var max=Math.max(inv,arr[11],1), min=Math.min(0,arr[0]);
+  var span=max-min, step=nice(span/4);
+  max=Math.ceil(max/step)*step; min=Math.floor(min/step)*step; span=max-min||1;
+  var y=function(v){return T+(H-T-B)*(1-(v-min)/span)};
+  var bw=(W-L-Rm)/12, s="";
+  for(var g=min;g<=max+1e-6;g+=step){s+='<line x1="'+L+'" x2="'+(W-Rm)+'" y1="'+y(g)+'" y2="'+y(g)+'" stroke="var(--line)"/><text x="'+(L-6)+'" y="'+(y(g)+4)+'" text-anchor="end">'+short(g)+'</text>';}
+  arr.forEach(function(v,k){
+    var x=L+k*bw+bw*0.18, w=bw*0.64, y0=y(0), y1=y(v);
+    var col=v>=inv?"var(--accent)":"var(--bar)";
+    s+='<rect x="'+x+'" y="'+Math.min(y0,y1)+'" width="'+w+'" height="'+Math.max(1,Math.abs(y1-y0))+'" fill="'+col+'" rx="2"><title>חודש '+(k+1)+': '+ils(v)+'</title></rect>';
+    s+='<text x="'+(x+w/2)+'" y="'+(H-10)+'" text-anchor="middle">'+(k+1)+'</text>';
+  });
+  if(inv>0){s+='<line x1="'+L+'" x2="'+(W-Rm)+'" y1="'+y(inv)+'" y2="'+y(inv)+'" stroke="var(--warn)" stroke-width="2" stroke-dasharray="6 4"/><text x="'+(W-Rm)+'" y="'+(y(inv)-5)+'" text-anchor="end" style="fill:var(--warn)">השקעה '+short(inv)+'</text>';}
+  $("chart").innerHTML=s;
+}
+function nice(x){var p=Math.pow(10,Math.floor(Math.log10(Math.max(x,1))));var f=x/p;return (f<=1?1:f<=2?2:f<=5?5:10)*p}
+function short(v){var a=Math.abs(v);return (v<0?"-":"")+(a>=1e6?num(a/1e6,1)+"M":a>=1000?num(a/1000)+"K":num(a))}
+
+function say(o,R){
+  var t=o.t>0?ils(o.t):"היעד שלך";
+  var html="<p>קודם בוא נראה איך היעד של "+t+" בנוי. מוצר ב־"+ils(o.p)+", "+o.c+" שידורים בחודש, "+num(R.regs)+" נרשמים לשידור. "+num(o.s)+"% מגיעים, ו־"+num(o.v,1)+"% מהם קונים. זה "+num(R.sales,1)+" רכישות בשידור, "+ils(R.rev)+" בחודש.</p>";
+  html+="<p>שלושה דברים קובעים את זה: מיומנויות (כמה מהנוכחים קונים), תדירות (כמה שידורים בחודש) ותקציב פרסום (כאן "+ils(R.ads)+" בחודש). אתה מבין מה זה אומר? לשים "+ils(R.ads)+" ולקבל "+ils(R.rev)+"."+(R.roas?" כל שקל מחזיר "+num(R.roas,1)+".":"")+"</p>";
+  var cov=R.coverMonth===null?"אחרי יותר משנה":(R.coverMonth===0?"מיד":"בחודש "+R.coverMonth);
+  html+="<p>עקומת הלמידה היא "+(o.m||0)+" חודשים, לא מהיום הראשון. גם ככה, ההשקעה של "+ils(o.x)+" בליווי מכוסה "+cov+"."+(o.t>0&&R.rev<o.t?" כדי לסגור את הפער עד "+t+" מגדילים בהדרגה שידורים או נרשמים, לפי הטבלה.":"")+" זה יושב לך?</p>";
+  $("say").innerHTML=html;
+}
+
+function writeHash(o){
+  var h=KEYS.map(function(k){return k+Math.round(o[k])}).join("-");
+  try{history.replaceState(null,"","#"+h)}catch(e){}
+}
+function toast(msg){var t=$("toast");t.textContent=msg;t.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(function(){t.hidden=true},2200)}
+
+function fill(vals){KEYS.forEach(function(k){$(k).value=(vals[k]!=null?vals[k]:DEF[k])})}
+
+var U=readUrl();
+fill(U.vals);
+if(U.name)$("leadName").textContent="· "+U.name;
+$("srcNote").textContent=Object.keys(U.vals).length?"נטען מהקישור של מפת השיחה. אפשר לשנות כל מספר.":"ערכי דוגמה. בקישור ממפת שיחה המספרים של הליד נטענים לבד.";
+$("form").addEventListener("input",render);
+$("form").addEventListener("submit",function(e){e.preventDefault()});
+$("reset").addEventListener("click",function(){fill({});render()});
+$("copy").addEventListener("click",function(){
+  var url=location.href;
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(function(){toast("הקישור הועתק")},function(){toast("הקישור בשורת הכתובת")})}else toast("הקישור בשורת הכתובת");
+});
+render();
+</script>
